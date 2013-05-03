@@ -72,7 +72,7 @@ exports.run = function(req,res) {
             console.log(title);
             for (l = 0; l< relevant.length; l++){
               if (title.toLowerCase().indexOf(relevant[l]) >= 0) {
-                if (grade != "F" || grade != "NC") {
+                if (grade != "F" && grade != "NC") {
                   internal.push(course+ " "+title+"; "+credits+" credits of "+distributions[i]+".");
                 }
               }
