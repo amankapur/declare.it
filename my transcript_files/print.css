@@ -1,0 +1,107 @@
+body {font-size: 10pt; }
+
+
+a, a:link, a:visited {color: #000000; text-decoration: underline;  }
+
+#masthead {display: none;}
+#welcomeBackBar {display: none;}
+#headerTabs {display: none;}
+#sideBar {display: none;}
+#lnkCustomize  {display: none;}
+#foot {display: none;}
+.buttonBar {display: none;}
+.buttonBarCentered {display: none;}
+a.customize {display: none;}
+#mainCrumbs #adminContext  {display: none;}
+#lblYouAreHere {display: none;}
+
+
+#mainCrumbs {
+  background: transparent;
+  border-top: 0;
+  border-bottom: solid 1px #dddddd;
+  font-size: 9pt;
+  color: #666666;
+  }
+
+
+#mainCrumbs a {color: #666666;}
+
+
+
+
+#pageTitle {
+  margin: 0 ;
+  padding: 12px 12px 10px 0;
+  border-bottom: 0;
+}
+
+#pageTitle h2 #contextName { font-size: 13pt; }
+#pageTitle h2 #pageName { font-size: 12pt;  }
+
+
+@media print { #printModeButtons { display:none } }
+
+
+h3 {font-size: 18pt  }
+h4 {background: transparent;  }
+
+h4 .headerFunctions a,
+h4 .headerFunctions a:link,
+h4 .headerFunctions a:visited {color: #000000;}
+
+
+.smalltext  {font-size: 9pt}
+
+.hint { font-size: 9pt;  }
+.note {  font-size: 9pt;  }
+
+
+
+.pHead {
+  color:  black;
+  background: transparent;
+  border-bottom: 1px solid #aaaaaa;
+  }
+
+
+.pHead h3 {
+  font-size: 10.5pt;
+  font-weight: bold;
+  }
+
+.pHead a,
+.pHead a:link,
+.pHead a:visited {color: black;  }
+
+.pHead div a { font-size: 9pt;  }
+
+
+
+.pShortcut {  font-size: 9pt;}
+
+.pFieldHint { font-size: 9pt;}
+
+
+.pFoot {  font-size: 9pt;}
+
+
+.multiUp p {font-size: 10pt;}
+.multiUp table {font-size: 10pt;}
+
+
+.groupedGrid th { font-size: 10pt;}
+
+
+div.oops h6 {  font-size: 10pt;}
+div.oops pre {  font-size: 10pt;}
+
+/*This class has been added to remove the scrollbars from 
+the div control. This class also exists in applicationStyle.css*/
+div.scrollAll{overflow:hidden; height:auto;}
+
+.securityGrid table thead th {font-size: 10pt; }
+
+
+#TargetedMessage { display: none; }
+#mainCrumbs { display: none; }

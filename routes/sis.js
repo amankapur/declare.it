@@ -2,12 +2,15 @@ var scrapi = require('scrapi');
 var async = require('async');
 
 var api = scrapi({
-    "base": "https://sis.olin.edu/cgi-bin/student",
+    "base": "/transcript.html",
     "spec": {
         "/cgi-bin/student/stugrds.cgi": {
             "classes": {
-                "$query": "tr[align=center] tr.glbdatadark",
-                "$each": "(html) td:nth-child(1)"
+                "$query": "table#pg0_V_tblTermData tr",
+                "$each": {
+                    "$query": "td",
+                    "$each": "(text)"
+                }
             }
         }
     }
@@ -92,7 +95,6 @@ exports.doLogin = function(req, res){
     pw = req.body.password;
 
     console.log("username", username);
-    console.log('pw', pw);
 
     req.session.user = username;
 

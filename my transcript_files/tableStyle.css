@@ -1,0 +1,94 @@
+﻿.one_column .pColumn1
+{
+	width:100%;
+}
+
+.two_column_rwide .pColumn1
+{
+	width:38%;
+}
+
+.two_column_rwide .pColumn2
+{
+	width:62%;
+}
+
+.two_column_even .pColumn1
+{
+	width:50%;
+}
+
+.two_column_even .pColumn2
+{
+	width:50%;
+}
+
+.two_column_lwide .pColumn1
+{
+	width:62%;
+}
+
+.two_column_lwide .pColumn2
+{
+	width:38%;
+}
+
+.three_column_rwide .pColumn1
+{
+	width:20%;
+}
+
+.three_column_rwide .pColumn2
+{
+	width:20%;
+}
+
+.three_column_rwide .pColumn3
+{
+	width:60%;
+}
+
+.three_column_mwide .pColumn1
+{
+	width:20%;
+}
+
+.three_column_mwide .pColumn2
+{
+	width:60%;
+}
+
+.three_column_mwide .pColumn3
+{
+	width:20%;
+}
+
+.three_column_even .pColumn1
+{
+	width:33%;
+}
+
+.three_column_even .pColumn2
+{
+	width:33%;
+}
+
+.three_column_even .pColumn3
+{
+	width:33%;
+}
+
+.three_column_lwide .pColumn1
+{
+	width:60%;
+}
+
+.three_column_lwide .pColumn2
+{
+	width:20%;
+}
+
+.three_column_lwide .pColumn3
+{
+	width:20%;
+}
