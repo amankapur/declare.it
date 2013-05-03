@@ -1,0 +1,20 @@
+extends layout
+
+block content
+	title= title
+
+	div(id="basic-info-form")
+		form(name="basic_info", action="/studyPlan/new", method="post")
+			label Name
+			input(type="text", name="student-name")
+			label Adviser 
+			input(type="text", name="adviser-name")
+			label Graduation Year
+			input(type="text", name="graduation-year")
+
+	div(id="declaration-explanatory-text")
+		| Please specify your intended Concentration. If you are following 
+		| a defined concentration, please write it in the box below. If you 
+		| are pursuing a self-designed concentration and would like a name for
+		| it to appear on your diploma, this is also the place to specify it for 
+		| Engineering Program Group approval.

@@ -6,8 +6,10 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , planOfStudy = require('./routes/planOfStudy')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , mongoose = require('mongoose');
 
 var app = express();
 
@@ -27,10 +29,16 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
+  mongoose.connect(process.env.MONGOLAB_URI || 'localhost');
 });
 
+// GETS
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/users', user.list)
+app.get('/studyPlan/new', planOfStudy.displayForm);
+
+// POSTS
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
