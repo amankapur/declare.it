@@ -254,77 +254,74 @@ block content
                               .large-2.columns
                                 label
 
-                // don't include courses that aren't a part of your core concentration 
-                // you can talk about other courses in your write-up, but don't include them in your table
+                    div.row.twelve.columns(id="check-overlap-allOlin")
+                        | Do any of the courses listed for your concentration include courses which 
+                        | all Olin students are required to take before graduation (e.g. SCOPE, POE, UOCD)? 
+                        div(id="overlap-allOlin-form")
+                            form.large-4.columns(name="overlap-allOlin", action="/studyPlan/new", method="post")
+                                label Yes
+                                input(type="checkbox", name="overlap-allOlin-toggle", value="Yes")
+                                label No
+                                input(type="checkbox", name="overlap-allOlin-toggle", value="No")
 
-            div.row.twelve.columns(id="check-overlap-allOlin")
-                | Do any of the courses listed for your concentration include courses which 
-                | all Olin students are required to take before graduation (e.g. SCOPE, POE, UOCD)? 
-                div(id="overlap-allOlin-form")
-                    form.large-4.columns(name="overlap-allOlin", action="/studyPlan/new", method="post")
-                        label Yes
-                        input(type="checkbox", name="overlap-allOlin-toggle", value="Yes")
-                        label No
-                        input(type="checkbox", name="overlap-allOlin-toggle", value="No")
+                    div.row(id="chem-matsci-req-check")
+                        | What course are you taking to meet the Chemistry/Materials Science requirement? 
+                        div(id="chem-matsci-req-form")
+                            form.large-4.columns(name="chem-matsci-req", action="/studyPlan/new", method="post")
+                                input(type="text", name="chem-matsci")
 
-            div.row(id="chem-matsci-req-check")
-                | What course are you taking to meet the Chemistry/Materials Science requirement? 
-                div(id="chem-matsci-req-form")
-                    form.large-4.columns(name="chem-matsci-req", action="/studyPlan/new", method="post")
-                        input(type="text", name="chem-matsci")
+                    div.row(id="phys-req-check")
+                        | What course are you taking to meet the physics requirement? 
+                        div(id="phys-req-form")
+                            form.large-4.columns(name="phys-req", action="/studyPlan/new", method="post")
+                                input(type="text", name="phys")
 
-            div.row(id="phys-req-check")
-                | What course are you taking to meet the physics requirement? 
-                div(id="phys-req-form")
-                    form.large-4.columns(name="phys-req", action="/studyPlan/new", method="post")
-                        input(type="text", name="phys")
+                    div.row(id="design-depth-req-check")
+                        | What course are you taking to meet the Design Depth requirement?     
+                        div(id="design-depth-req-form")
+                            form.large-4.columns(name="design-depth-req", action="/studyPlan/new", method="post")
+                                input(type="text", name="design-depth")
 
-            div.row(id="design-depth-req-check")
-                | What course are you taking to meet the Design Depth requirement?     
-                div(id="design-depth-req-form")
-                    form.large-4.columns(name="design-depth-req", action="/studyPlan/new", method="post")
-                        input(type="text", name="design-depth")
+                    div.row.twelve.columns(id="check-overlap-chemMatsci")
+                        | Are any of the courses listed for your concentration also used to meet 
+                        | the Chemistry/Materials Science, Physics, or Design Depth, AHS, or E! concentration?
+                        div(id="overlap-chemMatsci-form")
+                            form.large-4.columns(name="overlap-chemMatsci", action="/studyPlan/new", method="post")
+                                label Yes
+                                input(type="checkbox", name="overlap-chemMatsci-toggle", value="Yes")
+                                label No
+                                input(type="checkbox", name="overlap-chemMatsci-toggle", value="No")
 
-            div.row.twelve.columns(id="check-overlap-chemMatsci")
-                | Are any of the courses listed for your concentration also used to meet 
-                | the Chemistry/Materials Science, Physics, or Design Depth, AHS, or E! concentration?
-                div(id="overlap-chemMatsci-form")
-                    form.large-4.columns(name="overlap-chemMatsci", action="/studyPlan/new", method="post")
-                        label Yes
-                        input(type="checkbox", name="overlap-chemMatsci-toggle", value="Yes")
-                        label No
-                        input(type="checkbox", name="overlap-chemMatsci-toggle", value="No")
+                    div.row.twelve.columns(id="signatures")
+                        h2 Signatures
+                        div(id="student-sig")
+                            | Student Signature ________________________________________________   
+                            | Date _________________________
 
-            div.row.twelve.columns(id="signatures")
-                h2 Signatures
-                div(id="student-sig")
-                    | Student Signature ________________________________________________   
-                    | Date _________________________
-
-                div(id="credits-sig")
-                    h3 Credit requirements met? 
+                        div(id="credits-sig")
+                            h3 Credit requirements met? 
+                            br
+                            br
+                            | Signature of Adviser ________________________________________________   
+                            | Date _________________________
+                        div(id="breadth-sig")
+                            h3 Breadth, depth, coherence, and rigor met? (two relevant faculty members)
+                            br
+                            br
+                            | Signature ______________________ 
+                            | Name ______________________  
+                            | Date _________________________
+                            br
+                            br
+                            br
+                            | Signature ______________________ 
+                            | Name ______________________  
+                            | Date _________________________
+                        div(id="EPG-sig")
+                            h3 For office use only: 
+                            | Approved by EPG: ________________________________________________   
+                            | Date _________________________
                     br
-                    br
-                    | Signature of Adviser ________________________________________________   
-                    | Date _________________________
-                div(id="breadth-sig")
-                    h3 Breadth, depth, coherence, and rigor met? (two relevant faculty members)
-                    br
-                    br
-                    | Signature ______________________ 
-                    | Name ______________________  
-                    | Date _________________________
-                    br
-                    br
-                    br
-                    | Signature ______________________ 
-                    | Name ______________________  
-                    | Date _________________________
-                div(id="EPG-sig")
-                    h3 For office use only: 
-                    | Approved by EPG: ________________________________________________   
-                    | Date _________________________
-            br
 
 
 
