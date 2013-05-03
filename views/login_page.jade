@@ -1,0 +1,15 @@
+extend layout
+
+block content
+
+	form(id="login-form", action="/login", method="POST")
+		div.row
+			div.small-8
+				div.small-4
+					label SIS Username
+					input(type='text', name="username", placeholder='Ex. akapur')
+				div.small-4
+					label SIS Password
+					input(type='password', name="password", placeholder='')
+				div.small-4
+					button(type="submit", class="button") Submit

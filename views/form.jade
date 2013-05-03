@@ -1,0 +1,29 @@
+extend layout
+
+block content
+
+	form(id="login-form", action="/login")
+		fieldset
+			legend Fieldset
+			div.row
+				div.large-12.columns
+					label Input Label
+					input(type='text', name="large12", placeholder='large-12.columns')
+			div.row
+				div.large-4.columns
+					label Input Label
+					input(type='text', name="large4.1", placeholder='large-4.columns')
+				div.large-4.columns
+					label Input Label
+					input(type='text', name="large4.2", placeholder='large-4.columns')
+				div.large-4.columns
+					div.row.collapse
+						label Input Label
+						div.small-9.columns
+							input(type='text', name="small9", placeholder='small-9.columns')
+						div.small-3.columns
+							span.postfix .com
+			div.row
+				div.large-12.columns
+					label Textarea Label
+					textarea(placeholder='small-12.columns', name="small12")
