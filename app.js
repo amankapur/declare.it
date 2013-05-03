@@ -8,6 +8,7 @@ var express = require('express')
   , form = require('./routes/form')
   , http = require('http')
   , olinapps = require('olinapps')
+  , scrapiroute = require('./routes/scrapi')
   , login = require('./routes/login')
   , path = require('path')
   , planOfStudy = require('./routes/planOfStudy')
@@ -56,6 +57,7 @@ var loginRequired = function(){
 
 app.get('/', loginRequired(), form.index);
 app.get('/fakeData', form.fakeData);
+app.get('/scrapi', scrapiroute.run);
 app.get('/login', login.login);
 app.post('/login', login.doLogin);
 
