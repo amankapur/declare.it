@@ -49,7 +49,7 @@ exports.run = function(req,res) {
   var conc = req.query.conc;
   var filter_hash = 
     {
-      'bio': ['Bio Math', 'Biology', 'bio chemistry', 'bio materials', 'bioengineering'],
+      'bio': ['bio Math', 'biology', 'bio chemistry', 'bio materials', 'bioengineering'],
       'computing': ['discrete', 'software design', 'foundations of computer science', 'software systems'],
       'matsci': ['differntial equations', 'material science'],
       'systems': ['signals and systems', 'introduction to microelectronics circuits', 'software design', 'computer architecture', 'analog and digital communications', 'mechanics of solids and structures', 'dynamics', 'thermodynamics', 'transport phenomena', 'mechanical design', 'systems']
