@@ -55,12 +55,13 @@ var loginRequired = function(){
     }
 }
 
-app.get('/', loginRequired(), form.index);
+app.get('/', loginRequired(), planOfStudy.displayForm);
 app.get('/fakeData', form.fakeData);
 app.get('/scrapi', scrapiroute.sortByDistribution);
 app.get('/login', login.login);
 app.post('/login', login.doLogin);
 
+app.post('/autoFill', scrapiroute.run);
 app.get('/studyPlan/new', planOfStudy.displayForm);
 
 
