@@ -9,7 +9,9 @@ var express = require('express')
   , http = require('http')
   , olinapps = require('olinapps')
   , sis = require('./routes/sis')
-  , path = require('path');
+  , path = require('path')
+  , planOfStudy = require('./routes/planOfStudy')
+  , mongoose = require('mongoose');
 
 var app = express();
 
@@ -30,7 +32,9 @@ app.configure(function(){
 app.configure('development', function () {
   app.set('host', 'localhost:3000');
   app.use(express.errorHandler());
+  mongoose.connect(process.env.MONGOLAB_URI || 'localhost');
 });
+
 
 app.configure('production', function () {
   // app.set('host', 'quotes.olinapps.com');
@@ -54,6 +58,10 @@ app.get('/', loginRequired(), form.index);
 app.get('/fakeData', form.fakeData);
 app.get('/login', sis.login);
 app.post('/login', sis.doLogin);
+
+app.get('/studyPlan/new', planOfStudy.displayForm);
+
+
 
 
 http.createServer(app).listen(app.get('port'), function(){
