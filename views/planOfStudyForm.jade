@@ -3,18 +3,146 @@ extends layout
 block content
 	title= title
 
-	div(id="basic-info-form")
-		form(name="basic_info", action="/studyPlan/new", method="post")
-			label Name
-			input(type="text", name="student-name")
-			label Adviser 
-			input(type="text", name="adviser-name")
-			label Graduation Year
-			input(type="text", name="graduation-year")
+	.container.center
+		div.row.twelve.columns(id="basic-info-form")
+			form.large-4.columns(name="basic_info", action="/studyPlan/new", method="post")
+				label Name
+				input(type="text", name="student-name")
+				label Adviser 
+				input(type="text", name="adviser-name")
+				label Graduation Year
+				input(type="text", name="graduation-year")
 
-	div(id="declaration-explanatory-text")
-		| Please specify your intended Concentration. If you are following 
-		| a defined concentration, please write it in the box below. If you 
-		| are pursuing a self-designed concentration and would like a name for
-		| it to appear on your diploma, this is also the place to specify it for 
-		| Engineering Program Group approval.
+		div.row.twelve.columns(id="declaration-explanatory-text")
+			h2 Declaration of Concentration
+			| Please specify your intended Concentration. If you are following 
+			| a defined concentration, please write it in the box below. If you 
+			| are pursuing a self-designed concentration and would like a name for
+			| it to appear on your diploma, this is also the place to specify it for 
+			| Engineering Program Group approval.
+		div.row.twelve.columns(id="declaration-form")
+			form.large-4.columns(name="declaration", action="/studyPlan/new", method="post")
+				select(name="declaration-title")
+					option(value="E-C") Engineering: Computing
+					option(value="E-Sys") Engineering: Systems
+					option(value="E-Bio") Engineering: Biology
+					option(value="E-Matsci") Engineering: Materials Science
+					option(value="E-Robo") Engineering: Robotics
+
+
+		div.row.twelve.columns(id="story-behind-course-plan")
+			h2 Story Behind the Course Plan
+			div(id="course-plan-explanatory-text")
+				| If you are proposing a defined concentration, explain (a) why 
+				| this is the concentration you chose and (b) why you chose the 
+				| courses listed on the other side of the form to fulfill your 
+				| requirements. 
+				br
+				br
+				| If you are proposing a self-defined concentration, explain (a) 
+				| how you arrived at this plan and (b) how your plan (i.e. the 
+				| courses listed on the other side) incorporates breadth, depth, 
+				| coherence and rigor. See the Engineering Program Handbook for more 
+				| information. 
+				br
+				br
+				| You may attach additional papers or documentation if necessary.
+			div(id="course-plan-student-text")
+				form.large-4.columns(name="course-plan", action="/studyPlan/new", method="post")
+					textarea(name="course-plan-text", id="course-plan-textarea")
+
+
+		div.row.twelve.columns(id="courses-for-concentration")
+			h2 Courses to Complete Concentration 
+			div(id="course-list-explanatory-text")
+				| In the table below, list the courses that you will have taken to 
+				| constitute the breadth, depth, coherence and rigor of your declared 
+				| concentration. You may either include specific courses or give a description 
+				| of the kind of course you are planning to take, but you should be sure to include 
+				| enough specificity to fully describe your concentration. If the total credits
+				| received from the concentration courses and required courses is not enough to meet 
+				| the graduation requirements in math, science and engineering (as described below),
+				|  use the additional line at the bottom of the table to specify additional credits 
+				| needed. 
+				br
+				br
+				| Note: You do NOT need to use all of the lines on this table. Many successful plans 
+				| of study specify 24-30 credits of coursework that form the core of the concentration.
+				br
+				br
+			h1 INSERT TABLE HERE
+
+		div.row.twelve.columns(id="check-overlap-allOlin")
+			| Do any of the courses listed for your concentration include courses which 
+			| all Olin students are required to take before graduation (e.g. SCOPE, POE, UOCD)? 
+			div(id="overlap-allOlin-form")
+				form.large-4.columns(name="overlap-allOlin", action="/studyPlan/new", method="post")
+					label Yes
+					input(type="checkbox", name="overlap-allOlin-toggle", value="Yes")
+					label No
+					input(type="checkbox", name="overlap-allOlin-toggle", value="No")
+
+		div.row.twelve.columns(id="chem-matsci-req-check")
+			| What course are you taking to meet the Chemistry/Materials Science requirement? 
+			div(id="chem-matsci-req-form")
+				form.large-4.columns(name="chem-matsci-req", action="/studyPlan/new", method="post")
+					input(type="text", name="chem-matsci")
+
+		div.row.twelve.columns(id="phys-req-check")
+			| What course are you taking to meet the physics requirement? 
+			div(id="phys-req-form")
+				form.large-4.columns(name="phys-req", action="/studyPlan/new", method="post")
+					input(type="text", name="phys")
+
+		div.row.twelve.columns(id="design-depth-req-check")
+			| What course are you taking to meet the Design Depth requirement? 
+			div(id="design-depth-req-form")
+				form.large-4.columns(name="design-depth-req", action="/studyPlan/new", method="post")
+					input(type="text", name="design-depth")
+
+		div.row.twelve.columns(id="check-overlap-chemMatsci")
+			| Are any of the courses listed for your concentration also used to meet 
+			| the Chemistry/Materials Science, Physics, or Design Depth requirement?
+			div(id="overlap-chemMatsci-form")
+				form.large-4.columns(name="overlap-chemMatsci", action="/studyPlan/new", method="post")
+					label Yes
+					input(type="checkbox", name="overlap-chemMatsci-toggle", value="Yes")
+					label No
+					input(type="checkbox", name="overlap-chemMatsci-toggle", value="No")
+
+		div.row.twelve.columns(id="signatures")
+			h2 Signatures
+			div(id="student-sig")
+				| Student Signature ________________________________________________   
+				| Date _________________________
+
+			div(id="credits-sig")
+				h3 Credit requirements met? 
+				br
+				br
+				| Signature of Adviser ________________________________________________   
+				| Date _________________________
+			div(id="breadth-sig")
+				h3 Breadth, depth, coherence, and rigor met? (two relevant faculty members)
+				br
+				br
+				| Signature ______________________ 
+				| Name ______________________  
+				| Date _________________________
+				br
+				br
+				br
+				| Signature ______________________ 
+				| Name ______________________  
+				| Date _________________________
+			div(id="EPG-sig")
+				h3 For office use only: 
+				| Approved by EPG: ________________________________________________   
+				| Date _________________________
+		br
+
+
+
+
+
+
