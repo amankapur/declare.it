@@ -56,7 +56,6 @@ var loginRequired = function(){
 }
 
 app.get('/', loginRequired(), planOfStudy.displayForm);
-app.get('/fakeData', form.fakeData);
 app.get('/scrapi', scrapiroute.run);
 app.get('/login', login.login);
 app.post('/login', login.doLogin);
