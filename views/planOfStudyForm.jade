@@ -2,14 +2,45 @@ extends layout
 
 block content
     title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            ul.right
+              li.divider
+              li
+                a(href='#') Log out
 
-    .antialiased
+
+    .large-3.columns
+        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+            section.section
+              p.title
+                a(href='#') Home
+            section.section
+              p.title
+                a(href='#') Concentration Requirements
+            section.section.active
+              p.title
+                a(href='#') New Plan of Study
+
+
+    .container
         div.row
-            div.large-12.columns
-                h1.docs.header Olin College Engineering Plan of Study
+            div.large-10.push-1
+                h1 Olin College Engineering Plan of Study
+                | Before you fill out this worksheet, please read the 
+                a(href="http://star.olin.edu/docs/Forms/E%20handbook%20v.2.3.pdf", target="_blank") Engineering Program Handbook. 
+                | You may want to have the current Course Catalog and your record of courses taken close at hand. 
 
         div.row
-            div.large-12
+            div.large-10.push-3
                 div(id="basic-info-form")
                     form.large-4.columns(name="basic_info", action="/studyPlan/new", method="post")
                         label Name
@@ -18,8 +49,9 @@ block content
                         input(type="text", name="adviser-name")
                         label Graduation Year
                         input(type="text", name="graduation-year")
+
                 div.row.twelve.columns(id="declaration-explanatory-text")
-                    h2 Declaration of Concentration
+                    h3 Declaration of Concentration
                     | Please specify your intended Concentration. If you are following 
                     | a defined concentration, please write it in the box below. If you 
                     | are pursuing a self-designed concentration and would like a name for
@@ -41,7 +73,7 @@ block content
                         input(type="text", name="self-designed-title")
 
                 div.row.twelve.columns(id="story-behind-course-plan")
-                    h2 Story Behind the Course Plan
+                    h3 Story Behind the Course Plan
                     div(id="course-plan-explanatory-text")
                         | If you are proposing a defined concentration, explain (a) why 
                         | this is the concentration you chose and (b) why you chose the 
@@ -63,7 +95,7 @@ block content
 
 
                 div.row.twelve.columns(id="courses-for-concentration")
-                    h2 Courses to Complete Concentration 
+                    h3 Courses to Complete Concentration 
                     div(id="course-list-explanatory-text")
                         | In the table below, list the courses that you will have taken to 
                         | constitute the breadth, depth, coherence and rigor of your declared 
@@ -293,20 +325,18 @@ block content
                                 input(type="checkbox", name="overlap-chemMatsci-toggle", value="No")
 
                     div.row.twelve.columns(id="signatures")
-                        h2 Signatures
+                        h3 Signatures
                         div(id="student-sig")
                             | Student Signature ________________________________________________   
                             | Date _________________________
 
                         div(id="credits-sig")
-                            h3 Credit requirements met? 
-                            br
+                            h4 Credit requirements met? 
                             br
                             | Signature of Adviser ________________________________________________   
                             | Date _________________________
                         div(id="breadth-sig")
-                            h3 Breadth, depth, coherence, and rigor met? (two relevant faculty members)
-                            br
+                            h4 Breadth, depth, coherence, and rigor met? (two relevant faculty members)
                             br
                             | Signature ______________________ 
                             | Name ______________________  
@@ -318,7 +348,8 @@ block content
                             | Name ______________________  
                             | Date _________________________
                         div(id="EPG-sig")
-                            h3 For office use only: 
+                            h4 For office use only: 
+                            br
                             | Approved by EPG: ________________________________________________   
                             | Date _________________________
                     br
