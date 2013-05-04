@@ -17,9 +17,9 @@ $(function(){
   else {conc = '';}
   
   console.log(conc);
-  $.post('/autoFill', {conc: conc}, function(data){
+  $.post('/autoFill', {conc: "computing"}, function(data){
   		$("#courses").autofill(data);
-  		
+      console.log(data);  		
 	  });
 	})
 	.change();

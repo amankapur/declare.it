@@ -1,3 +1,4 @@
+
 var scrapi = require('scrapi');
 
 // var api = scrapi({
@@ -53,6 +54,7 @@ exports.doLogin = function(req, res){
     // console.log('pw', pw);
 
     req.session.user = username;
+    req.session.pw = pw;
 
     // console.log(getCourseInfo(username, pw));
 

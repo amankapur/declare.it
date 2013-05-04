@@ -1,7 +1,7 @@
 var scrapi = require('scrapi');
 var async = require('async');
 
-var api = scrapi({
+var api_static = scrapi({
   "base": "http://reyner.be",
   "spec": {
     "/files/transcript.html": {
@@ -14,13 +14,53 @@ var api = scrapi({
   }
 });
 
-function getEmpty(o, prop) {
-  if (o[prop] !== undefined) return o[prop];
-  else return [];
+var api = scrapi({
+  "base": "https://my.olin.edu/",
+  "spec": {
+    "/ICS/": {
+      "loginform": {
+        "__VIEWSTATE": {
+          $query: "#__VIEWSTATE",
+          $value: "(attr value)"
+        },
+        "___BrowserRefresh": {
+          $query: "#___BrowserRefresh",
+          $value: "(attr value)"
+        }
+      }
+    },
+    "/ICS/My_StAR/My_Grades_and_Transcript.jnz": {
+      "$query": "table#pg0_V_tblTermData tr",
+      "$each": {
+        "$query": "td",
+        "$each": "(text)"
+      }
+    }
+  }
+});
+
+function myLogin (username, password, next) {
+  api('/ICS/').get(function (err, json) {
+    api('/ICS/').post({
+      "__VIEWSTATE": json.loginform.__VIEWSTATE,
+      "___BrowserRefresh": json.loginform.___BrowserRefresh,
+      "userName": username,
+      "password": password,
+      "btnLogin": "Login"
+    }, function (err, html, res) {
+      if (res.statusCode != 302) {
+        throw new Error('Invalid login.');
+      }
+
+      api('/ICS/My_StAR/My_Grades_and_Transcript.jnz').get({
+        portlet: "Unofficial_Transcript_OLIN"
+      }, next);
+    });
+  });
 }
 
 exports.sortByDistribution = function(req,res) {
-  api('/files/transcript.html').get(function (err, json) {
+  myLogin(req.session.username, req.session.pw, function (err, json) {
     var distributions = ["AHSE", "ENGR", "MTH", "SCI", "OIE", "CC", "AWAY"];
     var i, j, k, course, title, grade, credits, internal;
     var out = [];
@@ -42,10 +82,7 @@ exports.sortByDistribution = function(req,res) {
       }
       out.push(internal);
     }
-    
-
-
-  })
+  });
 }
 var getValues = function (obj) {
     var vals = [];
@@ -57,6 +94,7 @@ var getValues = function (obj) {
     return vals;
 }
 exports.run = function(req,res) {
+  console.log("username " + req.session.user)
   var conc = req.body.conc;
   var filter_hash = 
     {
@@ -66,10 +104,12 @@ exports.run = function(req,res) {
       'systems': ['signals and systems', 'introduction to microelectronics circuits', 'software design', 'computer architecture', 'analog and digital communications', 'mechanics of solids and structures', 'dynamics', 'thermodynamics', 'transport phenomena', 'mechanical design', 'systems']
     }
   var relevant = filter_hash[conc];
+  console.log(relevant);
  
   // console.log(filter_hash[conc]);
 
-  api('/files/transcript.html').get(function (err, json) {
+  myLogin(req.session.user, req.session.pw, function (err, json) {
+    console.log(json);
     var distributions = ["AHSE", "ENGR", "MTH", "SCI", "OIE", "CC", "AWAY"];
     var i, j, k, l, course, title, grade, credits, internal;
     var out = [];
