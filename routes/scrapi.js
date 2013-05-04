@@ -60,7 +60,7 @@ exports.run = function(req,res) {
   var conc = req.body.conc;
   var filter_hash = 
     {
-      'bio': ['Bio Math', 'Biology', 'bio chemistry', 'bio materials', 'bioengineering'],
+      'bio': ['bio Math', 'biology', 'bio chemistry', 'bio materials', 'bioengineering'],
       'computing': ['discrete', 'software design', 'foundations of computer science', 'software systems'],
       'matsci': ['differntial equations', 'material science'],
       'systems': ['signals and systems', 'introduction to microelectronics circuits', 'software design', 'computer architecture', 'analog and digital communications', 'mechanics of solids and structures', 'dynamics', 'thermodynamics', 'transport phenomena', 'mechanical design', 'systems']
@@ -87,7 +87,7 @@ exports.run = function(req,res) {
             // console.log(title);
             for (l = 0; l< relevant.length; l++){
               if (title.toLowerCase().indexOf(relevant[l]) >= 0) {
-                if (grade != "F" || grade != "NC") {
+                if (grade != "F" && grade != "NC") {
                   internal.push(course+ " "+title+"; "+credits+" credits of "+distributions[i]+".");
                 }
               }
