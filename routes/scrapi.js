@@ -94,7 +94,6 @@ var getValues = function (obj) {
     return vals;
 }
 exports.run = function(req,res) {
-  console.log("username " + req.session.user)
   var conc = req.body.conc;
   var filter_hash = 
     {
@@ -104,12 +103,8 @@ exports.run = function(req,res) {
       'systems': ['signals and systems', 'introduction to microelectronics circuits', 'software design', 'computer architecture', 'analog and digital communications', 'mechanics of solids and structures', 'dynamics', 'thermodynamics', 'transport phenomena', 'mechanical design', 'systems']
     }
   var relevant = filter_hash[conc];
-  console.log(relevant);
- 
-  // console.log(filter_hash[conc]);
 
   myLogin(req.session.user, req.session.pw, function (err, json) {
-    console.log(json);
     var distributions = ["AHSE", "ENGR", "MTH", "SCI", "OIE", "CC", "AWAY"];
     var i, j, k, l, course, title, grade, credits, internal;
     var out = [];
