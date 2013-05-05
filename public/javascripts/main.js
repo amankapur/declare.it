@@ -17,6 +17,7 @@ $(function(){
     else {conc = '';}
     
     $.post('/autoFill', {conc: conc}, function(data){
+      $("#courses").find("input[type=text], textarea").val("");
       $("#courses").autofill(data);
     });
   })
