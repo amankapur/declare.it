@@ -58,7 +58,7 @@ var loginRequired = function(){
 app.get('/', loginRequired(), planOfStudy.displayForm);
 app.get('/scrapi', scrapiroute.run);
 app.get('/login', login.login);
-app.post('/login', login.doLogin);
+app.post('/login', scrapiroute.login);
 
 app.post('/autoFill', scrapiroute.run);
 app.get('/studyPlan/new', planOfStudy.displayForm);

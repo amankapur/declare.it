@@ -44,9 +44,9 @@ block content
                 div(id="basic-info-form")
                     form.large-4.columns(name="basic_info", action="/studyPlan/new", method="post")
                         label Name
-                        input(type="text", name="student-name")
-                        label Adviser 
-                        input(type="text", name="adviser-name")
+                        input(type="text", name="student-name", value="#{name}")
+                        label Advisor 
+                        input(type="text", name="adviser-name", value="#{advisor}")
                         label Graduation Year
                         input(type="text", name="graduation-year")
 

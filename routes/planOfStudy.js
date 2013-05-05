@@ -4,5 +4,7 @@ var PlanOfStudy = require('../models/planOfStudy')
 
 
 exports.displayForm = function(req, res){
-	res.render('planOfStudyForm', {title: "Engineering Plan of Study"});
+  var name = req.session.json.name || "";
+  var advisor = req.session.json.advisor.replace(/\s/g,'').replace(/PrimaryAdvisor/g,'').replace(/,/g,', ') || "";
+	res.render('planOfStudyForm', {title: "Engineering Plan of Study", name: name, advisor: advisor});
 }
