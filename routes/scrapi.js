@@ -1,19 +1,6 @@
 var scrapi = require('scrapi');
 var async = require('async');
 
-var api_static = scrapi({
-  "base": "http://reyner.be",
-  "spec": {
-    "/files/transcript.html": {
-      "$query": "table#pg0_V_tblTermData tr",
-      "$each": {
-        "$query": "td",
-        "$each": "(text)"
-      }
-    }
-  }
-});
-
 var api = scrapi({
   "base": "https://my.olin.edu/",
   "spec": {
