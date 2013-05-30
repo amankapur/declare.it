@@ -10,6 +10,7 @@ var express = require('express')
   , olinapps = require('olinapps')
   , scrapiroute = require('./routes/scrapi')
   , login = require('./routes/login')
+  , home = require('./routes/home')
   , path = require('path')
   , planOfStudy = require('./routes/planOfStudy')
   , mongoose = require('mongoose');
@@ -58,6 +59,7 @@ var loginRequired = function(){
 app.get('/', loginRequired(), planOfStudy.displayForm);
 app.get('/scrapi', scrapiroute.run);
 app.get('/login', login.login);
+app.get('/home', home.display);
 app.post('/login', scrapiroute.login);
 
 app.post('/autoFill', scrapiroute.run);
