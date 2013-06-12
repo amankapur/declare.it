@@ -25,7 +25,27 @@ block content
                 a(href='/home') Home
             section.section
               p.title
-                a(href='#') Concentration Requirements
+                a(href='/concentrationReqs') Concentration Requirements
             section.section
               p.title
                 a(href='/studyPlan/new') New Plan of Study
+
+
+    .container
+        div.row
+            div.large-10.push-1
+                h1 My Plan of Study Forms
+
+        div.row
+            div.large-10.push-3
+                div(id="plans")
+                  each plan, i in plans
+                    | #{plan.name}
+                    | #{plan.adviser}
+                    
+
+
+
+
+
+                    

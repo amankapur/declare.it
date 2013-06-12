@@ -25,7 +25,7 @@ block content
                 a(href='/home') Home
             section.section
               p.title
-                a(href='#') Concentration Requirements
+                a(href='/concentrationReqs') Concentration Requirements
             section.section.active
               p.title
                 a(href='#') New Plan of Study
@@ -42,13 +42,13 @@ block content
         div.row
             div.large-10.push-3
                 div(id="basic-info-form")
-                    form.large-4.columns(name="basic_info", action="/studyPlan/new", method="post")
+                    form.large-4.columns(name="basic_info", action="/studyPlan/save", method="post")
                         label Name
-                        input(type="text", name="student-name", value="#{name}")
+                        input(type="text", name="student_name", value="#{name}")
                         label Advisor 
-                        input(type="text", name="adviser-name", value="#{advisor}")
+                        input(type="text", name="adviser_name", value="#{advisor}")
                         label Graduation Year
-                        input(type="text", name="graduation-year")
+                        input(type="text", name="graduation_year")
 
                 div.row.twelve.columns(id="declaration-explanatory-text")
                     h3 Declaration of Concentration
@@ -58,7 +58,7 @@ block content
                     | it to appear on your diploma, this is also the place to specify it for 
                     | Engineering Program Group approval.
                 div(id="declaration-form")
-                    form.large-4.columns(name="declaration", action="/studyPlan/new", method="post")
+                    form.large-4.columns(name="declaration", action="/studyPlan/save", method="post")
                         select(name="declaration-title")
                             option() Pick a concentration...
                             option(value="E-C") Engineering: Computing
@@ -71,7 +71,7 @@ block content
                         br
                         br
                         label Title of Self-Designed Concentration
-                        input(type="text", name="self-designed-title")
+                        input(type="text", name="declaration")
 
                 div.row.twelve.columns(id="story-behind-course-plan")
                     h3 Story Behind the Course Plan
@@ -91,7 +91,7 @@ block content
                         br
                         | You may attach additional papers or documentation if necessary.
                     div(id="course-plan-student-text")
-                        form.large-4.columns(name="course-plan", action="/studyPlan/new", method="post")
+                        form.large-4.columns(name="course_plan", action="/studyPlan/save", method="post")
                             textarea(name="course-plan-text", id="course-plan-textarea")
 
 
@@ -114,7 +114,7 @@ block content
                         | of study specify 24-30 credits of coursework that form the core of the concentration.
                         br
                         br
-                    form(name="course-of-study", id="courses", action="/studyPlan/new", method="post")
+                    form(name="course_of_study", id="courses", action="/studyPlan/save", method="post")
                         fieldset
                             legend Plan of Study
                             .row
@@ -291,7 +291,7 @@ block content
                         | Do any of the courses listed for your concentration include courses which 
                         | all Olin students are required to take before graduation (e.g. SCOPE, POE, UOCD)? 
                         div(id="overlap-allOlin-form")
-                            form.large-4.columns(name="overlap-allOlin", action="/studyPlan/new", method="post")
+                            form.large-4.columns(name="overlap_allOlin", action="/studyPlan/save", method="post")
                                 label Yes
                                 input(type="checkbox", name="overlap-allOlin-toggle", value="Yes")
                                 label No
@@ -300,26 +300,26 @@ block content
                     div.row(id="chem-matsci-req-check")
                         | What course are you taking to meet the Chemistry/Materials Science requirement? 
                         div(id="chem-matsci-req-form")
-                            form.large-4.columns(name="chem-matsci-req", action="/studyPlan/new", method="post")
+                            form.large-4.columns(name="chem_matsci_req", action="/studyPlan/save", method="post")
                                 input(type="text", name="chem-matsci")
 
                     div.row(id="phys-req-check")
                         | What course are you taking to meet the physics requirement? 
                         div(id="phys-req-form")
-                            form.large-4.columns(name="phys-req", action="/studyPlan/new", method="post")
+                            form.large-4.columns(name="phys_req", action="/studyPlan/save", method="post")
                                 input(type="text", name="phys")
 
                     div.row(id="design-depth-req-check")
                         | What course are you taking to meet the Design Depth requirement?     
                         div(id="design-depth-req-form")
-                            form.large-4.columns(name="design-depth-req", action="/studyPlan/new", method="post")
+                            form.large-4.columns(name="design_depth_req", action="/studyPlan/save", method="post")
                                 input(type="text", name="design-depth")
 
                     div.row.twelve.columns(id="check-overlap-chemMatsci")
                         | Are any of the courses listed for your concentration also used to meet 
                         | the Chemistry/Materials Science, Physics, or Design Depth, AHS, or E! concentration?
                         div(id="overlap-chemMatsci-form")
-                            form.large-4.columns(name="overlap-chemMatsci", action="/studyPlan/new", method="post")
+                            form.large-4.columns(name="overlap_chemMatsci", action="/studyPlan/save", method="post")
                                 label Yes
                                 input(type="checkbox", name="overlap-chemMatsci-toggle", value="Yes")
                                 label No
@@ -351,12 +351,20 @@ block content
                         div(id="EPG-sig")
                             h4 For office use only: 
                             br
-                            | Approved by EPG: ________________________________________________   
-                            | Date _________________________
-                    br
+                            | Approved by EPG: __________________________________________________   
+                            | Date __________________________
+                        br
+                        br
+                    fieldset(style="margin-top:50px")
+                        form(name="form_save", action="/studyPlan/save", method="post")
+                          label Form Name (for student use only)
+                          input(type="text", name="form_name")
+                          button.btn(type="submit", value="save_form") Save
+                          button.btn(value="email_form", id="email_form") Email
 
 
 
 
 
+                    
 

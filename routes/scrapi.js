@@ -1,5 +1,6 @@
 var scrapi = require('scrapi');
 var async = require('async');
+var Student = require('../models/student')
 
 var api = scrapi({
   "base": "https://my.olin.edu/",
@@ -52,9 +53,29 @@ exports.login = function (req, response) {
       api('/ICS/My_StAR/My_Grades_and_Transcript.jnz').get({
         portlet: "Unofficial_Transcript_OLIN"
       }, function(err, json) {
-        req.session.user = req.body.username;
-        req.session.json = json;
-        response.redirect('/');
+        //req.session.user = req.body.username;
+
+        // CASE: student has already logged in, exists in our system
+        var existentStudent = Student.findOne({username: req.body.username}).exec(function (err, student){
+          if(student){
+            req.session.user = student; 
+            req.session.json = json;
+            response.redirect('/');
+          }else{
+            // CASE: student logging into our system for the first time
+            var time = Date.now();
+            var newStudent = new Student({created: time, domain: 'olin', username: req.body.username, email: '', planOfStudy_forms: []});
+            newStudent.save(function (err){
+              if(err)
+                console.log("Couldn't create new student in system: ", err);
+              req.session.user = newStudent; 
+              req.session.json = json;
+              response.redirect('/');
+            });
+          }
+        });
+        //req.session.json = json;
+        //response.redirect('/');
       });
     });
   });
@@ -82,8 +103,8 @@ exports.run = function(req,res) {
   var relevant = filter_hash[conc];
 
   json = req.session.json;
-  console.log(json);
-  console.log("***********************");
+  //console.log(json);
+  //console.log("***********************");
   var distributions = ["AHSE", "ENGR", "MTH", "SCI", "OIE", "CC", "AWAY"];
   var i, j, k, l, course, title, grade, credits, internal;
   var out = [];
@@ -141,8 +162,8 @@ exports.run = function(req,res) {
           main = out[i][j]
           
           arr = main.split(';');
-          console.log(arr);
-          console.log(coursenum);
+          //console.log(arr);
+          //console.log(coursenum);
           data[coursenum] = arr[0]
 
           arr = arr[1].split(' ');
@@ -154,7 +175,7 @@ exports.run = function(req,res) {
           data[coursenum+'-SCI'] = '0';
           data[coursenum+'-MTH'] = '0';
           // console.log(arr);
-          console.log(type);
+          // console.log(type);
           switch(type)
           {
             case 'ENGR.':

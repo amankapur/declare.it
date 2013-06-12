@@ -10,6 +10,7 @@ var express = require('express')
   , olinapps = require('olinapps')
   , scrapiroute = require('./routes/scrapi')
   , login = require('./routes/login')
+  , concentrationReqs = require('./routes/concentration_reqs')
   , home = require('./routes/home')
   , path = require('path')
   , planOfStudy = require('./routes/planOfStudy')
@@ -44,7 +45,7 @@ app.configure('production', function () {
 
 var loginRequired = function(){
   return function(req, res, next) {
-    user = req.session.user;
+    user = req.session.user;    
     console.log("USER LOGIN REQUIRED", user);
       if (!user){
 
@@ -60,9 +61,11 @@ app.get('/', loginRequired(), planOfStudy.displayForm);
 app.get('/scrapi', scrapiroute.run);
 app.get('/login', login.login);
 app.get('/home', home.display);
+app.get('/concentrationReqs', concentrationReqs.displayReqs);
 app.post('/login', scrapiroute.login);
 
 app.post('/autoFill', scrapiroute.run);
+app.post('/studyPlan/save', planOfStudy.saveForm);
 app.get('/studyPlan/new', planOfStudy.displayForm);
 
 
