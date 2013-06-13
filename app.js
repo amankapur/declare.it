@@ -68,6 +68,9 @@ app.post('/autoFill', scrapiroute.run);
 app.post('/studyPlan/save', planOfStudy.saveForm);
 app.get('/studyPlan/new', planOfStudy.displayForm);
 
+// DEBUG
+app.get('/enumeratePlans', planOfStudy.enumerate_plans);
+
 
 
 
