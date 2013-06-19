@@ -21,61 +21,73 @@ exports.saveForm = function(req, res){
 			//form.update({name: req.body.form_name}, {adviser: req.body.adviser_name}, {grad_year: req.body.graduation_year}, {concentration_declaration: req.body.declaration}, {courses: [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8]})
 		}else{
 			console.log("Detected a yet-to-be-saved form!");
-			
-			// combine each individual course entry into array of info 
-			var courseNames = [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8];
-			var courseMTH = [req.body.course1_MTH, req.body.course2_MTH, req.body.course3_MTH, req.body.course4_MTH, req.body.course5_MTH, req.body.course6_MTH, req.body.course7_MTH, req.body.course8_MTH];
-			var courseSCI = [req.body.course1_SCI, req.body.course2_SCI, req.body.course3_SCI, req.body.course4_SCI, req.body.course5_SCI, req.body.course6_SCI, req.body.course7_SCI, req.body.course8_SCI];
-			var courseENGR = [req.body.course1_ENGR, req.body.course2_ENGR, req.body.course3_ENGR, req.body.course4_ENGR, req.body.course5_ENGR, req.body.course6_ENGR, req.body.course7_ENGR, req.body.course8_ENGR];
-			var courseAHSE = [req.body.course1_AHSE, req.body.course2_AHSE, req.body.course3_AHSE, req.body.course4_AHSE, req.body.course5_AHSE, req.body.course6_AHSE, req.body.course7_AHSE, req.body.course8_AHSE];
+			var courseList = [];
 
-			// combine each individual course entry into array of info 
-			var arr = [];
-			for(var i=0; i<courseNames.length; i++){
-				arr.push({
-					courseName: courseNames[i], 
-					MTH: courseMTH[i], 
-					SCI: courseSCI[i], 
-					ENGR: courseENGR[i], 
-					AHSE: courseAHSE[i]
-				});
-			}
+			async.auto({
+				populating_course_list: function(callback){
+					// combine each individual course entry into array of info 
+					var courseNames = [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8];
+					var courseMTH = [req.body.course1_MTH, req.body.course2_MTH, req.body.course3_MTH, req.body.course4_MTH, req.body.course5_MTH, req.body.course6_MTH, req.body.course7_MTH, req.body.course8_MTH];
+					var courseSCI = [req.body.course1_SCI, req.body.course2_SCI, req.body.course3_SCI, req.body.course4_SCI, req.body.course5_SCI, req.body.course6_SCI, req.body.course7_SCI, req.body.course8_SCI];
+					var courseENGR = [req.body.course1_ENGR, req.body.course2_ENGR, req.body.course3_ENGR, req.body.course4_ENGR, req.body.course5_ENGR, req.body.course6_ENGR, req.body.course7_ENGR, req.body.course8_ENGR];
+					var courseAHSE = [req.body.course1_AHSE, req.body.course2_AHSE, req.body.course3_AHSE, req.body.course4_AHSE, req.body.course5_AHSE, req.body.course6_AHSE, req.body.course7_AHSE, req.body.course8_AHSE];
 
-			// create a list of course objects 
-			async.each(arr, function(item, next){
-				var courseType; 
-				var courseCredits;
-				if(item.MTH != 0){
-					courseType = 'MTH';
-					courseCredits = item.MTH;
-				}else{
-					if(item.SCI != 0){
-						courseType = 'SCI';
-						courseCredits = item.SCI;
-					}else{
-						if(item.ENGR != 0){
-							courseType = 'ENGR';
-							courseCredits = item.ENGR;
+					// combine each individual course entry into array of info 
+					var arr = [];
+					for(var i=0; i<courseNames.length; i++){
+						arr.push({
+							courseName: courseNames[i], 
+							MTH: courseMTH[i], 
+							SCI: courseSCI[i], 
+							ENGR: courseENGR[i], 
+							AHSE: courseAHSE[i]
+						});
+					}
+
+					// create a list of course objects 
+					async.each(arr, function(item, next){
+						var courseType; 
+						var courseCredits;
+						if(item.MTH != 0){
+							courseType = 'MTH';
+							courseCredits = item.MTH;
 						}else{
-							if(item.AHSE != 0){
-								courseType = 'AHSE';
-								courseCredits = item.AHSE;
+							if(item.SCI != 0){
+								courseType = 'SCI';
+								courseCredits = item.SCI;
 							}else{
-								courseType = '';
-								courseCredits = '';
+								if(item.ENGR != 0){
+									courseType = 'ENGR';
+									courseCredits = item.ENGR;
+								}else{
+									if(item.AHSE != 0){
+										courseType = 'AHSE';
+										courseCredits = item.AHSE;
+									}else{
+										courseType = '';
+										courseCredits = '';
+									}
+								}
 							}
 						}
-					}
-				}
-				
-				// for right now, all non-pertinent attributes are just empty strings 
-				var newCourse = new Course({section: '', name: item.courseName, credit: courseCredits, grade: '', type: courseType, id: ''});
-				newCourse.save(function(err){
-					if(err)
-						console.log("Couldn't save the new course: ", err);
-					console.log("Created a new course: ", newCourse);
-					next(null);
-				});
+						
+						// for right now, all non-pertinent attributes are just empty strings 
+						var newCourse = new Course({section: '', name: item.courseName, credit: courseCredits, grade: '', type: courseType, id: ''});
+						newCourse.save(function(err){
+							if(err)
+								console.log("Couldn't save the new course: ", err);
+							courseList.push(newCourse);
+							console.log("Created a new course: ", newCourse);
+							next(null);
+						});
+					})
+					
+					// upon successful completion of course list creation, call callback
+					callback(null);
+				},
+				create_planOfStudy: ['populating_course_list', function(callback){
+					//var newPlanOfStudy = new PlanOfStudy({name: req.body.form_name, adviser: req.body.adviser_name, grad_year: req.body.graduation_year, concentration_declaration: req.body.declaration_title, courses: courseList, MTH_credits: req.body.total-MTH, })
+				}]
 			})
 		}
 	})
