@@ -224,61 +224,61 @@ block content
                               .large-8.columns(style="text-align: right")
                                 | Subtotal 
                               .large-1.columns
-                                input(type="text", placeholder= '0', name="subtotal-MTH")
+                                input(type="text", placeholder= '0', name="subtotal_MTH")
                               .large-1.columns
-                                input(type="text", placeholder= '0', name="subtotal-SCI")
+                                input(type="text", placeholder= '0', name="subtotal_SCI")
                               .large-1.columns
-                                input(type="text", placeholder= '0', name="subtotal-ENGR")
+                                input(type="text", placeholder= '0', name="subtotal_ENGR")
                               .large-1.columns
-                                input(type="text", placeholder= '0', name="subtotal-AHSE")
+                                input(type="text", placeholder= '0', name="subtotal_AHSE")
 
                             .row
                               .large-8.columns(style="text-align: right")
                                 | Courses Required for all Olin Students (eg. POE, SCOPE)
                               .large-1.columns
-                                input(type="text", placeholder= '8', name="allSchool-MTH")
+                                input(type="text", placeholder= '8', name="allSchool_MTH")
                               .large-1.columns
-                                input(type="text", placeholder= '14', name="allSchool-SCI")
+                                input(type="text", placeholder= '14', name="allSchool_SCI")
                               .large-1.columns
-                                input(type="text", placeholder= '30', name="allSchool-ENGR")
+                                input(type="text", placeholder= '30', name="allSchool_ENGR")
                               .large-1.columns
-                                input(type="text", name="allSchool-AHSE")
+                                input(type="text", name="allSchool_AHSE")
 
                             .row
                               .large-8.columns(style="text-align: right")
                                 | Additional Electives
                               .large-1.columns
-                                input(type="text", name="additional-MTH")
+                                input(type="text", name="additional_MTH")
                               .large-1.columns
-                                input(type="text", name="additional-SCI")
+                                input(type="text", name="additional_SCI")
                               .large-1.columns
-                                input(type="text", name="additional-ENGR")
+                                input(type="text", name="additional_ENGR")
                               .large-1.columns
-                                input(type="text", name="additional-AHSE")
+                                input(type="text", name="additional_AHSE")
 
                             .row
                               .large-8.columns(style="text-align: right")
                                 | Total
                               .large-1.columns
-                                input(type="text", placeholder= '8', name="total-MTH")
+                                input(type="text", placeholder= '8', name="total_MTH")
                               .large-1.columns
-                                input(type="text", placeholder= '14', name="total-SCI")
+                                input(type="text", placeholder= '14', name="total_SCI")
                               .large-1.columns
-                                input(type="text", placeholder= '30', name="total-ENGR")
+                                input(type="text", placeholder= '30', name="total_ENGR")
                               .large-1.columns
-                                input(type="text", placeholder= '0', name="total-AHSE")
+                                input(type="text", placeholder= '0', name="total_AHSE")
 
                             .row
                               .large-8.columns(style="text-align: right")
                                 | Required Credits for Graduation
                               .large-1.columns
-                                input(type="text", placeholder= '10+', name="grad-MTH")
+                                input(type="text", placeholder= '10+', name="grad_MTH")
                               .large-1.columns
-                                input(type="text", name="grad-SCI")
+                                input(type="text", name="grad_SCI")
                               .large-1.columns
-                                input(type="text", placeholder= '46+', name="grad-ENGR")
+                                input(type="text", placeholder= '46+', name="grad_ENGR")
                               .large-1.columns
-                                input(type="text", placeholder= '0', name="grad-AHSE")
+                                input(type="text", placeholder= '0', name="grad_AHSE")
 
                             .row
                               .large-8.columns
@@ -294,15 +294,15 @@ block content
                         div(id="overlap-allOlin-form")
                             .large-4.columns(name="overlap_allOlin")
                                 label Yes
-                                input(type="checkbox", name="overlap-allOlin-toggle", value="Yes")
+                                input(type="checkbox", name="overlap_allOlin_toggle", value="Yes")
                                 label No
-                                input(type="checkbox", name="overlap-allOlin-toggle", value="No")
+                                input(type="checkbox", name="overlap_allOlin_toggle", value="No")
 
                     div.row(id="chem-matsci-req-check")
                         | What course are you taking to meet the Chemistry/Materials Science requirement? 
                         div(id="chem-matsci-req-form")
                             .large-4.columns(name="chem_matsci_req")
-                                input(type="text", name="chem-matsci")
+                                input(type="text", name="chem_matsci")
 
                     div.row(id="phys-req-check")
                         | What course are you taking to meet the physics requirement? 
@@ -314,7 +314,7 @@ block content
                         | What course are you taking to meet the Design Depth requirement?     
                         div(id="design-depth-req-form")
                             .large-4.columns(name="design_depth_req")
-                                input(type="text", name="design-depth")
+                                input(type="text", name="design_depth")
 
                     div.row.twelve.columns(id="check-overlap-chemMatsci")
                         | Are any of the courses listed for your concentration also used to meet 
@@ -322,9 +322,9 @@ block content
                         div(id="overlap-chemMatsci-form")
                             .large-4.columns(name="overlap_chemMatsci")
                                 label Yes
-                                input(type="checkbox", name="overlap-chemMatsci-toggle", value="Yes")
+                                input(type="checkbox", name="overlap_chemMatsci_toggle", value="Yes")
                                 label No
-                                input(type="checkbox", name="overlap-chemMatsci-toggle", value="No")
+                                input(type="checkbox", name="overlap_chemMatsci_toggle", value="No")
 
                     div.row.twelve.columns(id="signatures")
                         h3 Signatures

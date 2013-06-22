@@ -209,25 +209,25 @@ exports.run = function(req,res) {
   totalsum_MTH = sum_MTH + additional_MTH + allschool_MTH;
   totalsum_ENGR = sum_ENGR + additional_ENGR + allschool_ENGR;
 
-  data['subtotal-ENGR'] = sum_ENGR;
-  data['subtotal-MTH'] = sum_MTH;
-  data['subtotal-SCI'] = sum_SCI;
-  data['subtotal-AHSE'] = sum_AHSE;
+  data['subtotal_ENGR'] = sum_ENGR;
+  data['subtotal_MTH'] = sum_MTH;
+  data['subtotal_SCI'] = sum_SCI;
+  data['subtotal_AHSE'] = sum_AHSE;
 
-  data['additional-AHSE'] = additional_AHSE;
-  data['additional-SCI'] = additional_SCI;
-  data['additional-MTH'] = additional_MTH;
-  data['additional-ENGR'] = additional_ENGR;
+  data['additional_AHSE'] = additional_AHSE;
+  data['additional_SCI'] = additional_SCI;
+  data['additional_MTH'] = additional_MTH;
+  data['additional_ENGR'] = additional_ENGR;
 
-  data['allSchool-AHSE'] = allschool_AHSE;
-  data['allSchool-MTH'] = allschool_MTH;
-  data['allSchool-SCI'] = allschool_SCI;
-  data['allSchool-ENGR'] = allschool_ENGR;
+  data['allSchool_AHSE'] = allschool_AHSE;
+  data['allSchool_MTH'] = allschool_MTH;
+  data['allSchool_SCI'] = allschool_SCI;
+  data['allSchool_ENGR'] = allschool_ENGR;
 
-  data['total-AHSE'] = totalsum_AHSE;
-  data['total-MTH'] = totalsum_MTH;
-  data['total-SCI'] = totalsum_SCI;
-  data['total-ENGR'] = totalsum_ENGR;
+  data['total_AHSE'] = totalsum_AHSE;
+  data['total_MTH'] = totalsum_MTH;
+  data['total_SCI'] = totalsum_SCI;
+  data['total_ENGR'] = totalsum_ENGR;
 
   res.send(data);
 }

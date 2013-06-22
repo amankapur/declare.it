@@ -70,6 +70,8 @@ app.get('/studyPlan/new', planOfStudy.displayForm);
 
 // DEBUG
 app.get('/enumeratePlans', planOfStudy.enumerate_plans);
+app.get('/backdoorDisplay', planOfStudy.backdoorDisplay);
+app.get('/delete_all_plans', planOfStudy.delete_all);
 
 
 
