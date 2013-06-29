@@ -14,6 +14,7 @@ exports.displayForm = function(req, res){
 exports.saveForm = function(req, res){
 	// check if the form already exists in the student's array of Plans of Study
 	Student.findOne({username: req.session.user.username}).populate('planOfStudy_forms').exec(function (err, student){
+		
 		if(err)
 			console.log("Error in checking whether form already exists: ", err);
 		// doing a filler condition right now in order to test the other case, eventually need to check if plan of study is in planOfStudy_forms array 
@@ -97,10 +98,7 @@ exports.saveForm = function(req, res){
 				}], 
 				update_userPlanList: ['create_planOfStudy', function(callback){
 					var currPlanList = student.planOfStudy_forms; 
-					console.log("The user's current list of plans of study is: ", currPlanList);
-					console.log("The plan we're adding on is: ", newPlanOfStudy);
 					currPlanList.push(newPlanOfStudy); 
-					console.log("After we've added it on: ", currPlanList);
 					student.planOfStudy_forms = currPlanList; 
 					student.save(function (err){
 						if(err)
