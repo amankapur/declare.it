@@ -12,17 +12,19 @@ exports.displayForm = function(req, res){
 }
 
 exports.saveForm = function(req, res){
-	// check if the form already exists 
-	PlanOfStudy.findOne({name: req.body.form_name}).exec(function (err, form){
+	// check if the form already exists in the student's array of Plans of Study
+	Student.findOne({username: req.session.user.username}).populate('planOfStudy_forms').exec(function (err, student){
 		if(err)
 			console.log("Error in checking whether form already exists: ", err);
-		if(form != null){
+		// doing a filler condition right now in order to test the other case, eventually need to check if plan of study is in planOfStudy_forms array 
+		if(student != null && student.planOfStudy_forms.length > 10){
 			console.log("Detected an existent form, modifying it.");
 			//form.update({name: req.body.form_name}, {adviser: req.body.adviser_name}, {grad_year: req.body.graduation_year}, {concentration_declaration: req.body.declaration}, {courses: [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8]})
 		}else{
-			console.log("Detected a yet-to-be-saved form!");
+			console.log("Detected a yet-to-be-saved form (below length 10)!");
 			var courseList = [];
 			var arr = [];
+			var newPlanOfStudy; 
 
 			async.auto({
 				ingesting_user_data: function(callback){
@@ -86,14 +88,26 @@ exports.saveForm = function(req, res){
 					});
 				}], 
 				create_planOfStudy: ['populating_course_list', function(callback, results){
-					var newPlanOfStudy = new PlanOfStudy({name: req.body.form_name, adviser: req.body.adviser_name, grad_year: req.body.graduation_year, concentration_declaration: req.body.declaration_title, nested: {courses: courseList, MTH_credits: req.body.total_MTH, SCI_credits: req.body.total_SCI, ENGR_credits: req.body.total_ENGR, AHSE_orOther_credits: req.body.total_AHSE, additional_electives_MTH: req.body.additional_MTH,  additional_electives_SCI: req.body.additional_SCI, additional_electives_ENGR: req.body.additional_ENGR, additional_electives_AHSE: req.body.additional_AHSE}, overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, course_plan_story: req.body.course_plan_text, chem_matsci_req: req.body.chem_matsci, phys_req: req.body.phys, design_depth_req: req.body.design_depth, overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle});
+					newPlanOfStudy = new PlanOfStudy({name: req.body.form_name, adviser: req.body.adviser_name, grad_year: req.body.graduation_year, concentration_declaration: req.body.declaration_title, nested: {courses: courseList, MTH_credits: req.body.total_MTH, SCI_credits: req.body.total_SCI, ENGR_credits: req.body.total_ENGR, AHSE_orOther_credits: req.body.total_AHSE, additional_electives_MTH: req.body.additional_MTH,  additional_electives_SCI: req.body.additional_SCI, additional_electives_ENGR: req.body.additional_ENGR, additional_electives_AHSE: req.body.additional_AHSE}, overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, course_plan_story: req.body.course_plan_text, chem_matsci_req: req.body.chem_matsci, phys_req: req.body.phys, design_depth_req: req.body.design_depth, overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle});
 					newPlanOfStudy.save(function (err){
 						if(err)
 							console.log("Unable to create and save new plan of study: ", err);
-						console.log("Successful plan creation! ", newPlanOfStudy);
 						callback(null, 'done');
 					});
-				}]
+				}], 
+				update_userPlanList: ['create_planOfStudy', function(callback){
+					var currPlanList = student.planOfStudy_forms; 
+					console.log("The user's current list of plans of study is: ", currPlanList);
+					console.log("The plan we're adding on is: ", newPlanOfStudy);
+					currPlanList.push(newPlanOfStudy); 
+					console.log("After we've added it on: ", currPlanList);
+					student.planOfStudy_forms = currPlanList; 
+					student.save(function (err){
+						if(err)
+							console.log("Unable to update student's profile: ", err);
+						console.log("Successful plan creation and updating of student profile: ", student.planOfStudy_forms);
+					})
+				}], 
 			}, function (err, result){
 				// final callback
 				console.log("Successfully ingested and created new Plan of Study");
