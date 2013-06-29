@@ -13,15 +13,22 @@ exports.displayForm = function(req, res){
 
 exports.saveForm = function(req, res){
 	// check if the form already exists in the student's array of Plans of Study
+	var found = false;
+
 	Student.findOne({username: req.session.user.username}).populate('planOfStudy_forms').exec(function (err, student){
-		
 		if(err)
 			console.log("Error in checking whether form already exists: ", err);
-		// doing a filler condition right now in order to test the other case, eventually need to check if plan of study is in planOfStudy_forms array 
-		if(student != null && student.planOfStudy_forms.length > 10){
-			console.log("Detected an existent form, modifying it.");
+		// if no error, check if student is modifying form or creating new one
+		for(var i=0; i<student.planOfStudy_forms.length; i++){
+			if(student.planOfStudy_forms[i].name == req.body.form_name){
+				console.log("Detected an existent form, modifying it.");
+				found = true; 
+
+				// question: how does the behavior here actually differ from 
+			}
+		}
 			//form.update({name: req.body.form_name}, {adviser: req.body.adviser_name}, {grad_year: req.body.graduation_year}, {concentration_declaration: req.body.declaration}, {courses: [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8]})
-		}else{
+		if(!found){
 			console.log("Detected a yet-to-be-saved form (below length 10)!");
 			var courseList = [];
 			var arr = [];

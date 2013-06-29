@@ -170,28 +170,28 @@ exports.run = function(req,res) {
 
           type = arr[4];
 
-          data[coursenum+'-ENGR'] = '0';
-          data[coursenum+'-AHSE'] = '0';
-          data[coursenum+'-SCI'] = '0';
-          data[coursenum+'-MTH'] = '0';
+          data[coursenum+'_ENGR'] = '0';
+          data[coursenum+'_AHSE'] = '0';
+          data[coursenum+'_SCI'] = '0';
+          data[coursenum+'_MTH'] = '0';
           // console.log(arr);
           // console.log(type);
           switch(type)
           {
             case 'ENGR.':
-              data[coursenum+'-ENGR'] = parseInt(arr[1]);
+              data[coursenum+'_ENGR'] = parseInt(arr[1]);
               sum_ENGR += parseInt(arr[1]);
               break;
             case 'SCI.':
-              data[coursenum+'-SCI'] = parseInt(arr[1]);
+              data[coursenum+'_SCI'] = parseInt(arr[1]);
               sum_SCI += parseInt(arr[1]);
               break;
             case 'MTH.':
-              data[coursenum+'-MTH'] = parseInt(arr[1]);
+              data[coursenum+'_MTH'] = parseInt(arr[1]);
               sum_MTH += parseInt(arr[1]);
               break;
             case 'AHSE.':
-              data[coursenum+'-AHSE'] = parseInt(arr[1]);
+              data[coursenum+'_AHSE'] = parseInt(arr[1]);
               sum_AHSE += parseInt(arr[1]);
               break;
             
