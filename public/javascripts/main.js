@@ -22,4 +22,12 @@ $(function(){
     });
   })
 
+  $("#pushToAutofill").click(function (){
+      console.log("We're in the javascripties!!!")
+      $.post('/autoFillWholeForm', function(data){
+        console.log("The data we're getting back is: ", data);
+        $("#toAutofill").autofill(data);
+      })
+  })
+
 })

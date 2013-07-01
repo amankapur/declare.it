@@ -11,6 +11,15 @@ exports.displayForm = function(req, res){
   res.render('planOfStudyForm', {title: "Engineering Plan of Study", name: name, advisor: advisor});
 }
 
+exports.displayFilledForm = function(req, res){
+	PlanOfStudy.findOne({_id: req.params.planID}).populate('courses').exec(function (err, plan){
+		if(err)
+			console.log("Could not find and display desired Plan of Study: ", err);
+		console.log("Got the plan of study we wanted! ", plan);
+		res.render('concentration_reqs', {title: "Plan"});
+	})
+}
+
 exports.saveForm = function(req, res){
 	// check if the form already exists in the student's array of Plans of Study
 	var found = false;
@@ -152,6 +161,16 @@ exports.enumerate_plans = function(req, res){
 // BACKDOOR DISPLAY FORM: created when no internet access for sis login
 exports.backdoorDisplay = function(req, res){
 	res.render('planOfStudyForm', {title: "Engineering Plan of Study", name: 'Margaret-Ann Seger', advisor: 'John Geddes'});
+}
+
+
+exports.autoFillTest = function(req, res){
+	console.log("We're inside the caller function");
+	data = {};
+	data['student_name'] = 'Margaret-Ann Seger';
+	data['adviser_name'] = 'John Geddes';
+	data['graduation_year'] = '2013';
+	res.send(data);
 }
 
 

@@ -1,51 +1,67 @@
 extends layout
 
 block content
-    title= title
-    
-    nav.top-bar(class="site-navbar")
-        ul.title-area
-            li.name
-              h1
-                a(href='#') declare.it 
-            li.toggle-topbar.menu-icon
-              a(href='#')
-                span Menu
-          section.top-bar-section
-            ul.right
-              li.divider
-              li
-                a(href='#') Log out
+		title= title
+		
+		nav.top-bar(class="site-navbar")
+				ul.title-area
+						li.name
+							h1
+								a(href='#') declare.it 
+						li.toggle-topbar.menu-icon
+							a(href='#')
+								span Menu
+					section.top-bar-section
+						ul.right
+							li.divider
+							li
+								a(href='#') Log out
 
 
-    .large-3.columns
-        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
-            section.section.active
-              p.title
-                a(href='/home') Home
-            section.section
-              p.title
-                a(href='/concentrationReqs') Concentration Requirements
-            section.section
-              p.title
-                a(href='/studyPlan/new') New Plan of Study
+		.large-3.columns
+				.docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+						section.section.active
+							p.title
+								a(href='/home') Home
+						section.section
+							p.title
+								a(href='/concentrationReqs') Concentration Requirements
+						section.section
+							p.title
+								a(href='/studyPlan/new') New Plan of Study
 
 
-    .container
-        div.row
-            div.large-10.push-1
-                h1 My Plan of Study Forms
+		.container
+				div.row
+						div.large-10.push-1
+								h1 My Plan of Study Forms
 
-        div.row
-            div.large-10.push-3
-                div(id="plans")
-                  each plan, i in plans
-                    | #{plan.name}
-                    | #{plan.adviser}
-                    
+				div.row
+						div.large-10.push-3
+								div(id="plans")
+									each plan, i in plans
+										form(name="goToIndividualPlan", action="/studyPlan/" + "#{plan._id}", method="post")
+											h4 #{plan.name}
+											button.btn(type="submit", value="goToForm", style="margin-bottom: 20px", value="#{plan._id") Go To Form
+										br
+
+						button.btn(id="pushToAutofill", value="Push to Autofill") Autofill Test
+
+				div.row(id="toAutofill")
+							form(name="tester1", action="/studyPlan/save", method="post")
+								div.large-10.push-3
+										div(id="basic-info-form")
+												.large-4.columns
+														label Name
+														input(type="text", name="student_name")
+														label Advisor 
+														input(type="text", name="adviser_name")
+														label Graduation Year
+														input(type="text", name="graduation_year")
+												
 
 
 
 
 
-                    
+												

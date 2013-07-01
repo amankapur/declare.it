@@ -65,8 +65,11 @@ app.get('/concentrationReqs', concentrationReqs.displayReqs);
 app.post('/login', scrapiroute.login);
 
 app.post('/autoFill', scrapiroute.run);
+app.post('/autoFillWholeForm', planOfStudy.autoFillTest);
 app.post('/studyPlan/save', planOfStudy.saveForm);
 app.get('/studyPlan/new', planOfStudy.displayForm);
+app.post('/studyPlan/:planID', planOfStudy.displayFilledForm);
+app.get('/studyPlan/:planID', planOfStudy.displayFilledForm);
 
 // DEBUG
 app.get('/enumeratePlans', planOfStudy.enumerate_plans);
