@@ -33,21 +33,359 @@ block content
 
 		.container
 				div.row
-						div.large-10.push-1
-								h1 My Plan of Study Forms
+					div.large-10.push-1
+							h1 My Plan of Study Forms
 
 				div.row
-						div.large-10.push-3
-								div(id="plans")
-									each plan, i in plans
-										form(name="goToIndividualPlan", action="/studyPlan/" + "#{plan._id}", method="post")
-											h4 #{plan.name}
-											button.btn(type="submit", value="goToForm", style="margin-bottom: 20px", value="#{plan._id") Go To Form
-										br
+					div.large-10.push-3
+						div(id="plans")
+							each plan, i in plans
+								h4 #{plan.name}
+								br
+								button.btn(value="goToForm", class="goToIndividualPlan", style="margin-bottom: 20px", value="#{plan._id}") Expand Form
+								
+								.container(id="planToAutofill" + "#{plan._id}", style="display:none")
+									div.row
+											div.large-10.push-1
+													h1 Olin College Engineering Plan of Study
+													| Before you fill out this worksheet, please read the 
+													a(href="http://star.olin.edu/docs/Forms/E%20handbook%20v.2.3.pdf", target="_blank") Engineering Program Handbook. 
+													| You may want to have the current Course Catalog and your record of courses taken close at hand. 
+
+									div.row
+										form(name="declaration", action="/studyPlan/save", method="post")
+											div.large-10.push-1
+													div(id="basic-info-form", style="margin-top: 30px")
+															.large-4.columns
+																	label Name
+																	input(type="text", name="student_name")
+																	label Advisor 
+																	input(type="text", name="adviser_name")
+																	label Graduation Year
+																	input(type="text", name="graduation_year")
+
+													div.row.twelve.columns(id="declaration-explanatory-text")
+															h3 Declaration of Concentration
+															| Please specify your intended Concentration. If you are following 
+															| a defined concentration, please write it in the box below. If you 
+															| are pursuing a self-designed concentration and would like a name for
+															| it to appear on your diploma, this is also the place to specify it for 
+															| Engineering Program Group approval.
+													div(id="declaration-form")
+															.large-4.columns
+																	select(name="declaration_title")
+																			option() Pick a concentration...
+																			option(value="E-C") Engineering: Computing
+																			option(value="E-Sys") Engineering: Systems
+																			option(value="E-Bio") Engineering: Biology
+																			option(value="E-Matsci") Engineering: Materials Science
+																			option(value="E-Robo") Engineering: Robotics
+																			option(value="E-Design") Engineering: Design
+																			option(value="E-Self") Engineering: Self-Designed
+																	br
+																	br
+																	label Title of Self-Designed Concentration
+																	input(type="text", name="declaration_title") // changed this FYI
+
+													div.row.twelve.columns(id="story-behind-course-plan")
+															h3 Story Behind the Course Plan
+															div(id="course-plan-explanatory-text")
+																	| If you are proposing a defined concentration, explain (a) why 
+																	| this is the concentration you chose and (b) why you chose the 
+																	| courses listed on the other side of the form to fulfill your 
+																	| requirements. 
+																	br
+																	br
+																	| If you are proposing a self-defined concentration, explain (a) 
+																	| how you arrived at this plan and (b) how your plan (i.e. the 
+																	| courses listed on the other side) incorporates breadth, depth, 
+																	| coherence and rigor. See the Engineering Program Handbook for more 
+																	| information. 
+																	br
+																	br
+																	| You may attach additional papers or documentation if necessary.
+															div(id="course-plan-student-text")
+																	form.large-4.columns(name="declaration", action="/studyPlan/save", method="post")
+																			textarea(name="course_plan_text", id="course-plan-textarea")
+
+
+													div.row.twelve.columns(id="courses-for-concentration")
+															h3 Courses to Complete Concentration 
+															div(id="course-list-explanatory-text")
+																	| In the table below, list the courses that you will have taken to 
+																	| constitute the breadth, depth, coherence and rigor of your declared 
+																	| concentration. You may either include specific courses or give a description 
+																	| of the kind of course you are planning to take, but you should be sure to include 
+																	| enough specificity to fully describe your concentration. If the total credits
+																	| received from the concentration courses and required courses is not enough to meet 
+																	| the graduation requirements in math, science and engineering (as described below),
+																	|  use the additional line at the bottom of the table to specify additional credits 
+																	| needed. 
+																	br
+																	br
+																	| NOTE: Do not include courses outside of the courses needed to satisfy your core concentration. 
+																	| You do NOT need to use all of the lines on this table. Many successful plans 
+																	| of study specify 24-30 credits of coursework that form the core of the concentration.
+																	br
+																	br
+															div(id="courses")
+																	fieldset
+																			legend Plan of Study
+																			.row
+																					.large-8.columns
+																							| COURSES 
+																					.large-1.columns
+																							| MTH
+																					.large-1.columns
+																							| SCI
+																					.large-1.columns
+																							| ENGR
+																					.large-1.columns
+																							| AHSE/ Other
+																			.row(style="margin-left: 1px")
+																					| Courses for Concentration
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course1")
+																				.large-1.columns
+																					input(type="text", name="course1_MTH")
+																				.large-1.columns
+																					input(type="text", name="course1_SCI")
+																				.large-1.columns
+																					input(type="text", name="course1_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course1_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course2")
+																				.large-1.columns
+																					input(type="text", name="course2_MTH")
+																				.large-1.columns
+																					input(type="text", name="course2_SCI")
+																				.large-1.columns
+																					input(type="text", name="course2_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course2_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course3")
+																				.large-1.columns
+																					input(type="text", name="course3_MTH")
+																				.large-1.columns
+																					input(type="text", name="course3_SCI")
+																				.large-1.columns
+																					input(type="text", name="course3_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course3_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course4")
+																				.large-1.columns
+																					input(type="text", name="course4_MTH")
+																				.large-1.columns
+																					input(type="text", name="course4_SCI")
+																				.large-1.columns
+																					input(type="text", name="course4_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course4_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course5")
+																				.large-1.columns
+																					input(type="text", name="course5_MTH")
+																				.large-1.columns
+																					input(type="text", name="course5_SCI")
+																				.large-1.columns
+																					input(type="text", name="course5_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course5_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course6")
+																				.large-1.columns
+																					input(type="text", name="course6_MTH")
+																				.large-1.columns
+																					input(type="text", name="course6_SCI")
+																				.large-1.columns
+																					input(type="text", name="course6_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course6_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course7")
+																				.large-1.columns
+																					input(type="text", name="course7_MTH")
+																				.large-1.columns
+																					input(type="text", name="course7_SCI")
+																				.large-1.columns
+																					input(type="text", name="course7_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course7_AHSE")
+																			.row
+																				.large-8.columns
+																					input(type='text', placeholder='Course', name="course8")
+																				.large-1.columns
+																					input(type="text", name="course8_MTH")
+																				.large-1.columns
+																					input(type="text", name="course8_SCI")
+																				.large-1.columns
+																					input(type="text", name="course8_ENGR")
+																				.large-1.columns
+																					input(type="text", name="course8_AHSE")
+
+																			.row
+																				.large-8.columns(style="text-align: right")
+																					| Subtotal 
+																				.large-1.columns
+																					input(type="text", placeholder= '0', name="subtotal_MTH")
+																				.large-1.columns
+																					input(type="text", placeholder= '0', name="subtotal_SCI")
+																				.large-1.columns
+																					input(type="text", placeholder= '0', name="subtotal_ENGR")
+																				.large-1.columns
+																					input(type="text", placeholder= '0', name="subtotal_AHSE")
+
+																			.row
+																				.large-8.columns(style="text-align: right")
+																					| Courses Required for all Olin Students (eg. POE, SCOPE)
+																				.large-1.columns
+																					input(type="text", placeholder= '8', name="allSchool_MTH")
+																				.large-1.columns
+																					input(type="text", placeholder= '14', name="allSchool_SCI")
+																				.large-1.columns
+																					input(type="text", placeholder= '30', name="allSchool_ENGR")
+																				.large-1.columns
+																					input(type="text", name="allSchool_AHSE")
+
+																			.row
+																				.large-8.columns(style="text-align: right")
+																					| Additional Electives
+																				.large-1.columns
+																					input(type="text", name="additional_MTH")
+																				.large-1.columns
+																					input(type="text", name="additional_SCI")
+																				.large-1.columns
+																					input(type="text", name="additional_ENGR")
+																				.large-1.columns
+																					input(type="text", name="additional_AHSE")
+
+																			.row
+																				.large-8.columns(style="text-align: right")
+																					| Total
+																				.large-1.columns
+																					input(type="text", placeholder= '8', name="total_MTH")
+																				.large-1.columns
+																					input(type="text", placeholder= '14', name="total_SCI")
+																				.large-1.columns
+																					input(type="text", placeholder= '30', name="total_ENGR")
+																				.large-1.columns
+																					input(type="text", placeholder= '0', name="total_AHSE")
+
+																			.row
+																				.large-8.columns(style="text-align: right")
+																					| Required Credits for Graduation
+																				.large-1.columns
+																					input(type="text", placeholder= '10+', name="grad_MTH")
+																				.large-1.columns
+																					input(type="text", name="grad_SCI")
+																				.large-1.columns
+																					input(type="text", placeholder= '46+', name="grad_ENGR")
+																				.large-1.columns
+																					input(type="text", placeholder= '0', name="grad_AHSE")
+
+																			.row
+																				.large-8.columns
+																					label
+																				.large-2.columns(style="text-align: center")
+																					label At least 30
+																				.large-2.columns
+																					label
+
+															div.row.twelve.columns(id="check-overlap-allOlin")
+																	| Do any of the courses listed for your concentration include courses which 
+																	| all Olin students are required to take before graduation (e.g. SCOPE, POE, UOCD)? 
+																	div(id="overlap-allOlin-form")
+																			.large-4.columns(name="overlap_allOlin")
+																					label Yes
+																					input(type="radio", name="overlap_allOlin_toggle", value="true")
+																					label No
+																					input(type="radio", name="overlap_allOlin_toggle", value="false")
+
+															div.row(id="chem-matsci-req-check")
+																	| What course are you taking to meet the Chemistry/Materials Science requirement? 
+																	div(id="chem-matsci-req-form")
+																			.large-4.columns(name="chem_matsci_req")
+																					input(type="text", name="chem_matsci")
+
+															div.row(id="phys-req-check")
+																	| What course are you taking to meet the physics requirement? 
+																	div(id="phys-req-form")
+																			.large-4.columns(name="phys_req")
+																					input(type="text", name="phys")
+
+															div.row(id="design-depth-req-check")
+																	| What course are you taking to meet the Design Depth requirement?     
+																	div(id="design-depth-req-form")
+																			.large-4.columns(name="design_depth_req")
+																					input(type="text", name="design_depth")
+
+															div.row.twelve.columns(id="check-overlap-chemMatsci")
+																	| Are any of the courses listed for your concentration also used to meet 
+																	| the Chemistry/Materials Science, Physics, or Design Depth, AHS, or E! concentration?
+																	div(id="overlap-chemMatsci-form")
+																			.large-4.columns(name="overlap_chemMatsci")
+																					label Yes
+																					input(type="radio", name="overlap_chemMatsci_toggle", value="true")
+																					label No
+																					input(type="radio", name="overlap_chemMatsci_toggle", value="false")
+
+															div.row.twelve.columns(id="signatures")
+																	h3 Signatures
+																	div(id="student-sig")
+																			| Student Signature ________________________________________________   
+																			| Date _________________________
+
+																	div(id="credits-sig")
+																			h4 Credit requirements met? 
+																			br
+																			| Signature of Adviser ________________________________________________   
+																			| Date _________________________
+																	div(id="breadth-sig")
+																			h4 Breadth, depth, coherence, and rigor met? (two relevant faculty members)
+																			br
+																			| Signature ________________________ 
+																			| Name __________________________  
+																			| Date ___________________________
+																			br
+																			br
+																			br
+																			| Signature ________________________ 
+																			| Name __________________________  
+																			| Date ___________________________
+																	div(id="EPG-sig")
+																			h4 For office use only: 
+																			br
+																			| Approved by EPG: __________________________________________________   
+																			| Date __________________________
+																	br
+																	br
+															fieldset(style="margin-top:50px")
+																	label Form Name (for student use only)
+																	input(type="text", name="form_name")
+																	button.btn(type="submit", value="save_form") Save
+																	button.btn(value="email_form", id="email_form") Email
+
+
+
+
+
+								
+
+
 
 						button.btn(id="pushToAutofill", value="Push to Autofill") Autofill Test
 
-				div.row(id="toAutofill")
+				div.row(id="toAutofill", style="display: none")
 							form(name="tester1", action="/studyPlan/save", method="post")
 								div.large-10.push-3
 										div(id="basic-info-form")
@@ -64,4 +402,3 @@ block content
 
 
 
-												

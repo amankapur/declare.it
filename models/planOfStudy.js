@@ -2,6 +2,7 @@ var mongoose = require('mongoose'), Schema = mongoose.Schema
 
 var planOfStudySchema = new Schema({
 	name: String, 
+	student_name: String, 
 	adviser: String, 
 	grad_year: Number, 
 	concentration_declaration: String,

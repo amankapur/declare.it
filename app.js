@@ -66,6 +66,7 @@ app.post('/login', scrapiroute.login);
 
 app.post('/autoFill', scrapiroute.run);
 app.post('/autoFillWholeForm', planOfStudy.autoFillTest);
+app.post('/autoFillPlanInfo/:planID', planOfStudy.autoFillPlanInfo);
 app.post('/studyPlan/save', planOfStudy.saveForm);
 app.get('/studyPlan/new', planOfStudy.displayForm);
 app.post('/studyPlan/:planID', planOfStudy.displayFilledForm);

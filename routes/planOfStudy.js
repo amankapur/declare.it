@@ -8,7 +8,7 @@ exports.displayForm = function(req, res){
   var name = req.session.json.name || "";
   var advisor = req.session.json.advisor.replace(/\s/g,'').replace(/PrimaryAdvisor/g,'').replace(/,/g,', ') || "";
   // NOTE TO TEST WHAT MY.OLIN.EDU RETURNS 
-  res.render('planOfStudyForm', {title: "Engineering Plan of Study", name: name, advisor: advisor});
+  res.render('planOfStudyForm', {title: "Engineering Plan of Study", student_name: name, advisor: advisor});
 }
 
 exports.displayFilledForm = function(req, res){
@@ -16,7 +16,7 @@ exports.displayFilledForm = function(req, res){
 		if(err)
 			console.log("Could not find and display desired Plan of Study: ", err);
 		console.log("Got the plan of study we wanted! ", plan);
-		res.render('concentration_reqs', {title: "Plan"});
+		res.render('testPage', {title: "Test of Autofill Display"});
 	})
 }
 
@@ -105,7 +105,7 @@ exports.saveForm = function(req, res){
 					});
 				}], 
 				create_planOfStudy: ['populating_course_list', function(callback, results){
-					newPlanOfStudy = new PlanOfStudy({name: req.body.form_name, adviser: req.body.adviser_name, grad_year: req.body.graduation_year, concentration_declaration: req.body.declaration_title, nested: {courses: courseList, MTH_credits: req.body.total_MTH, SCI_credits: req.body.total_SCI, ENGR_credits: req.body.total_ENGR, AHSE_orOther_credits: req.body.total_AHSE, additional_electives_MTH: req.body.additional_MTH,  additional_electives_SCI: req.body.additional_SCI, additional_electives_ENGR: req.body.additional_ENGR, additional_electives_AHSE: req.body.additional_AHSE}, overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, course_plan_story: req.body.course_plan_text, chem_matsci_req: req.body.chem_matsci, phys_req: req.body.phys, design_depth_req: req.body.design_depth, overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle});
+					newPlanOfStudy = new PlanOfStudy({name: req.body.form_name, student_name: req.body.student_name, adviser: req.body.adviser_name, grad_year: req.body.graduation_year, concentration_declaration: req.body.declaration_title, nested: {courses: courseList, MTH_credits: req.body.total_MTH, SCI_credits: req.body.total_SCI, ENGR_credits: req.body.total_ENGR, AHSE_orOther_credits: req.body.total_AHSE, additional_electives_MTH: req.body.additional_MTH,  additional_electives_SCI: req.body.additional_SCI, additional_electives_ENGR: req.body.additional_ENGR, additional_electives_AHSE: req.body.additional_AHSE}, overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, course_plan_story: req.body.course_plan_text, chem_matsci_req: req.body.chem_matsci, phys_req: req.body.phys, design_depth_req: req.body.design_depth, overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle});
 					newPlanOfStudy.save(function (err){
 						if(err)
 							console.log("Unable to create and save new plan of study: ", err);
@@ -171,6 +171,65 @@ exports.autoFillTest = function(req, res){
 	data['adviser_name'] = 'John Geddes';
 	data['graduation_year'] = '2013';
 	res.send(data);
+}
+
+exports.autoFillPlanInfo = function(req, res){
+	data = {};
+	PlanOfStudy.findOne({_id: req.params.planID}).populate('nested.courses').exec(function(err, plan){
+
+		// general fields data population
+		data['student_name'] = plan.student_name; 
+		data['adviser_name'] = plan.adviser;
+		data['graduation_year'] = plan.grad_year;
+		data['declaration_title'] = plan.concentration_declaration;
+		data['overlap_allOlin_toggle'] = plan.overlap_toggle_allOlin;
+		data['course_plan_text'] = plan.course_plan_story;
+		data['chem_matsci'] = plan.chem_matsci_req;
+		data['phys'] = plan.phys_req;
+		data['design_depth'] = plan.design_depth_req;
+		data['overlap_chemMatsci_toggle'] = plan.overlap_toggle_chemMatsciDesign;
+		data['form_name'] = plan.name; 
+
+		// data population of course list
+		var counter = 1; 
+		for(var i=0; i<plan.nested.courses.length; i++){
+			var currCourse = plan.nested.courses[i];
+
+			if(currCourse.name != '' && currCourse.credit != null){
+				data['course' + counter] = currCourse.name;
+
+				// type of credit course qualifies for 
+				var creditType = currCourse.type;
+				data['course' + counter + '_' + creditType] = currCourse.credit; 
+				counter++; 
+			}
+		}
+
+		// totals for courses sub-form
+		data['subtotal_MTH'] = plan.nested.MTH_credits - plan.nested.additional_electives_MTH - 8;  
+		data['subtotal_SCI'] = plan.nested.SCI_credits - plan.nested.additional_electives_SCI - 14; 
+		data['subtotal_ENGR'] = plan.nested.ENGR_credits - plan.nested.additional_electives_ENGR - 30; 
+		data['subtotal_AHSE'] = plan.nested.AHSE_orOther_credits - plan.nested.additional_electives_AHSE; 
+		
+		data['allSchool_MTH'] = 8;
+		data['allSchool_SCI'] = 14; 
+		data['allSchool_ENGR'] = 30; 
+		data['allSchool_AHSE'] = 0; 
+
+		data['additional_MTH'] = plan.nested.additional_electives_MTH; 
+		data['additional_SCI'] = plan.nested.additional_electives_SCI; 
+		data['additional_ENGR'] = plan.nested.additional_electives_ENGR; 
+		data['additional_AHSE'] = plan.nested.additional_electives_AHSE; 
+
+
+		data['total_MTH'] = plan.nested.MTH_credits; 
+		data['total_SCI'] = plan.nested.SCI_credits;
+		data['total_ENGR'] = plan.nested.ENGR_credits;
+		data['total_AHSE'] = plan.nested.AHSE_orOther_credits;
+
+		// send data
+		res.send(data);
+	})
 }
 
 

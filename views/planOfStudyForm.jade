@@ -45,7 +45,7 @@ block content
                 div(id="basic-info-form")
                     .large-4.columns
                         label Name
-                        input(type="text", name="student_name", value="#{name}")
+                        input(type="text", name="student_name", value="#{student_name}")
                         label Advisor 
                         input(type="text", name="adviser_name", value="#{advisor}")
                         label Graduation Year
@@ -93,7 +93,7 @@ block content
                         | You may attach additional papers or documentation if necessary.
                     div(id="course-plan-student-text")
                         form.large-4.columns(name="declaration", action="/studyPlan/save", method="post")
-                            textarea(name="course-plan-text", id="course-plan-textarea")
+                            textarea(name="course_plan_text", id="course-plan-textarea")
 
 
                 div.row.twelve.columns(id="courses-for-concentration")
