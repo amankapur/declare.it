@@ -25,7 +25,6 @@ $(function(){
   $("#pushToAutofill").click(function (){
       console.log("We're in the javascripties!!!")
       $.post('/autoFillWholeForm', function(data){
-        console.log("The data we're getting back is: ", data);
         $("#toAutofill").show();
         $("#toAutofill").autofill(data);
       })
@@ -34,7 +33,6 @@ $(function(){
   $(".goToIndividualPlan").click(function (){
     var planToAutofill = "#planToAutofill" + $(this).attr("value");
     $.post('/autoFillPlanInfo/' + $(this).attr("value"), function(data){
-        console.log("The data we're getting back is: ", data);
         $(planToAutofill).show();
         $(planToAutofill).autofill(data);
     })

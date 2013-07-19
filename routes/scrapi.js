@@ -81,6 +81,12 @@ exports.login = function (req, response) {
   });
 }
 
+exports.logout = function(req, response){
+  req.session.user = null;
+  req.session.json = null;
+  response.redirect('/');
+}
+
 
 var getValues = function (obj) {
     var vals = [];

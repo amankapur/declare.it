@@ -46,12 +46,10 @@ app.configure('production', function () {
 var loginRequired = function(){
   return function(req, res, next) {
     user = req.session.user;    
-    console.log("USER LOGIN REQUIRED", user);
       if (!user){
 
         res.redirect("/login");
       } else {
-        console.log("USER LOGGED IN BITCHES!!!!");
         next();
       }
     }
@@ -60,22 +58,23 @@ var loginRequired = function(){
 app.get('/', loginRequired(), planOfStudy.displayForm);
 app.get('/scrapi', scrapiroute.run);
 app.get('/login', login.login);
-app.get('/home', home.display);
-app.get('/concentrationReqs', concentrationReqs.displayReqs);
+app.get('/home', loginRequired(), home.display);
+app.get('/concentrationReqs', loginRequired(), concentrationReqs.displayReqs);
 app.post('/login', scrapiroute.login);
+app.get('/logout', loginRequired(), scrapiroute.logout);
+
 
 app.post('/autoFill', scrapiroute.run);
-app.post('/autoFillWholeForm', planOfStudy.autoFillTest);
 app.post('/autoFillPlanInfo/:planID', planOfStudy.autoFillPlanInfo);
-app.post('/studyPlan/save', planOfStudy.saveForm);
-app.get('/studyPlan/new', planOfStudy.displayForm);
-app.post('/studyPlan/:planID', planOfStudy.displayFilledForm);
-app.get('/studyPlan/:planID', planOfStudy.displayFilledForm);
+app.post('/studyPlan/save', loginRequired(), planOfStudy.saveForm);
+app.get('/studyPlan/new', loginRequired(), planOfStudy.displayForm);
+app.post('/studyPlan/:planID', loginRequired(), planOfStudy.displayFilledForm);
+app.get('/studyPlan/:planID', loginRequired(), planOfStudy.displayFilledForm);
 
 // DEBUG
-app.get('/enumeratePlans', planOfStudy.enumerate_plans);
-app.get('/backdoorDisplay', planOfStudy.backdoorDisplay);
-app.get('/delete_all_plans', planOfStudy.delete_all);
+app.get('/enumeratePlans', planOfStudy.enumerate_plans); // <-- NEED TO GET RID OF THIS BEFORE WE SHIP!
+app.get('/backdoorDisplay', planOfStudy.backdoorDisplay); // <-- NEED TO GET RID OF THIS BEFORE WE SHIP!
+app.get('/delete_all_plans', planOfStudy.delete_all); // <-- NEED TO GET RID OF THIS BEFORE WE SHIP!
 
 
 

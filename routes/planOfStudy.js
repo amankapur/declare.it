@@ -15,7 +15,6 @@ exports.displayFilledForm = function(req, res){
 	PlanOfStudy.findOne({_id: req.params.planID}).populate('courses').exec(function (err, plan){
 		if(err)
 			console.log("Could not find and display desired Plan of Study: ", err);
-		console.log("Got the plan of study we wanted! ", plan);
 		res.render('testPage', {title: "Test of Autofill Display"});
 	})
 }
@@ -35,9 +34,7 @@ exports.saveForm = function(req, res){
 			}
 		}
 
-		if(found){
-			console.log("Detected an existent form, modifying it.");
-			
+		if(found){			
 			var courseList = [];
 			var arr = [];
 
@@ -110,7 +107,6 @@ exports.saveForm = function(req, res){
 						grad_year: req.body.graduation_year, 
 						concentration_declaration: req.body.declaration_title,
 						
-						// nested things
 						courses: courseList, 
 						MTH_credits: req.body.total_MTH, 
 						SCI_credits: req.body.total_SCI, 
@@ -137,11 +133,11 @@ exports.saveForm = function(req, res){
 			}, function (err, result){
 				// final callback
 				console.log("Successfully ingested and modified Plan of Study");
+				res.redirect('/home');
 			})
 		}
 			//form.update({name: req.body.form_name}, {adviser: req.body.adviser_name}, {grad_year: req.body.graduation_year}, {concentration_declaration: req.body.declaration}, {courses: [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8]})
 		if(!found){
-			console.log("Detected a yet-to-be-saved form (below length 10)!");
 			var courseList = [];
 			var arr = [];
 			var newPlanOfStudy; 
@@ -214,16 +210,15 @@ exports.saveForm = function(req, res){
 						adviser: req.body.adviser_name, 
 						grad_year: req.body.graduation_year, 
 						concentration_declaration: req.body.declaration_title, 
-						nested: {
-							courses: courseList, 
-							MTH_credits: req.body.total_MTH, 
-							SCI_credits: req.body.total_SCI, 
-							ENGR_credits: req.body.total_ENGR,
-							AHSE_orOther_credits: req.body.total_AHSE, 
-							additional_electives_MTH: req.body.additional_MTH,  
-							additional_electives_SCI: req.body.additional_SCI, 
-							additional_electives_ENGR: req.body.additional_ENGR, 
-							additional_electives_AHSE: req.body.additional_AHSE}, 
+						courses: courseList, 
+						MTH_credits: req.body.total_MTH, 
+						SCI_credits: req.body.total_SCI, 
+						ENGR_credits: req.body.total_ENGR,
+						AHSE_orOther_credits: req.body.total_AHSE, 
+						additional_electives_MTH: req.body.additional_MTH,  
+						additional_electives_SCI: req.body.additional_SCI, 
+						additional_electives_ENGR: req.body.additional_ENGR, 
+						additional_electives_AHSE: req.body.additional_AHSE, 
 						overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, 
 						course_plan_story: req.body.course_plan_text, 
 						chem_matsci_req: req.body.chem_matsci, 
@@ -244,12 +239,15 @@ exports.saveForm = function(req, res){
 					student.save(function (err){
 						if(err)
 							console.log("Unable to update student's profile: ", err);
-						console.log("Successful plan creation and updating of student profile: ", student.planOfStudy_forms);
+						callback(null);
 					})
 				}], 
 			}, function (err, result){
 				// final callback
-				console.log("Successfully ingested and created new Plan of Study");
+				if(err)
+					console.log("Error creating new plan of study: ", err);
+				console.log("Successfully created new plan of study");
+				res.redirect('/home');
 			})
 		}
 	}); 
@@ -276,9 +274,7 @@ exports.delete_all = function(req, res){
 // list all Plans of Study associated with a student [DEBUG PURPOSES ONLY]
 exports.enumerate_plans = function(req, res){
 	Student.findOne({username: req.session.user.username}).populate('planOfStudy_forms').exec(function (err, student){
-		console.log("THE STUDENT WE'RE GETTING BACK IS: ", student);
 		for(var i=0; i< student.planOfStudy_forms.length; i++){
-			console.log("THE STUDENT'S PLANS OF STUDY ARE: ", student.planOfStudy_forms[i]);
 		}
 	});
 }
@@ -289,18 +285,9 @@ exports.backdoorDisplay = function(req, res){
 }
 
 
-exports.autoFillTest = function(req, res){
-	console.log("We're inside the caller function");
-	data = {};
-	data['student_name'] = 'Margaret-Ann Seger';
-	data['adviser_name'] = 'John Geddes';
-	data['graduation_year'] = '2013';
-	res.send(data);
-}
-
 exports.autoFillPlanInfo = function(req, res){
 	data = {};
-	PlanOfStudy.findOne({_id: req.params.planID}).populate('nested.courses').exec(function(err, plan){
+	PlanOfStudy.findOne({_id: req.params.planID}).populate('courses').exec(function(err, plan){
 
 		// general fields data population
 		data['student_name'] = plan.student_name; 
@@ -317,8 +304,8 @@ exports.autoFillPlanInfo = function(req, res){
 
 		// data population of course list
 		var counter = 1; 
-		for(var i=0; i<plan.nested.courses.length; i++){
-			var currCourse = plan.nested.courses[i];
+		for(var i=0; i<plan.courses.length; i++){
+			var currCourse = plan.courses[i];
 
 			if(currCourse.name != '' && currCourse.credit != null){
 				data['course' + counter] = currCourse.name;
@@ -331,26 +318,26 @@ exports.autoFillPlanInfo = function(req, res){
 		}
 
 		// totals for courses sub-form
-		data['subtotal_MTH'] = plan.nested.MTH_credits - plan.nested.additional_electives_MTH - 8;  
-		data['subtotal_SCI'] = plan.nested.SCI_credits - plan.nested.additional_electives_SCI - 14; 
-		data['subtotal_ENGR'] = plan.nested.ENGR_credits - plan.nested.additional_electives_ENGR - 30; 
-		data['subtotal_AHSE'] = plan.nested.AHSE_orOther_credits - plan.nested.additional_electives_AHSE; 
+		data['subtotal_MTH'] = plan.MTH_credits - plan.additional_electives_MTH - 8;  
+		data['subtotal_SCI'] = plan.SCI_credits - plan.additional_electives_SCI - 14; 
+		data['subtotal_ENGR'] = plan.ENGR_credits - plan.additional_electives_ENGR - 30; 
+		data['subtotal_AHSE'] = plan.AHSE_orOther_credits - plan.additional_electives_AHSE; 
 		
 		data['allSchool_MTH'] = 8;
 		data['allSchool_SCI'] = 14; 
 		data['allSchool_ENGR'] = 30; 
 		data['allSchool_AHSE'] = 0; 
 
-		data['additional_MTH'] = plan.nested.additional_electives_MTH; 
-		data['additional_SCI'] = plan.nested.additional_electives_SCI; 
-		data['additional_ENGR'] = plan.nested.additional_electives_ENGR; 
-		data['additional_AHSE'] = plan.nested.additional_electives_AHSE; 
+		data['additional_MTH'] = plan.additional_electives_MTH; 
+		data['additional_SCI'] = plan.additional_electives_SCI; 
+		data['additional_ENGR'] = plan.additional_electives_ENGR; 
+		data['additional_AHSE'] = plan.additional_electives_AHSE; 
 
 
-		data['total_MTH'] = plan.nested.MTH_credits; 
-		data['total_SCI'] = plan.nested.SCI_credits;
-		data['total_ENGR'] = plan.nested.ENGR_credits;
-		data['total_AHSE'] = plan.nested.AHSE_orOther_credits;
+		data['total_MTH'] = plan.MTH_credits; 
+		data['total_SCI'] = plan.SCI_credits;
+		data['total_ENGR'] = plan.ENGR_credits;
+		data['total_AHSE'] = plan.AHSE_orOther_credits;
 
 		// send data
 		res.send(data);

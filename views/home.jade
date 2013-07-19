@@ -15,7 +15,7 @@ block content
 						ul.right
 							li.divider
 							li
-								a(href='#') Log out
+								a(href='/logout') Log out
 
 
 		.large-3.columns
@@ -32,7 +32,7 @@ block content
 
 
 		.container
-				div.row
+				div.row(style="margin-top: 50px")
 					div.large-10.push-1
 							h1 My Plan of Study Forms
 
@@ -40,9 +40,9 @@ block content
 					div.large-10.push-3
 						div(id="plans")
 							each plan, i in plans
-								h4 #{plan.name}
+								h4(style="margin-bottom: -10px") #{plan.name}
 								br
-								button.btn(value="goToForm", class="goToIndividualPlan", style="margin-bottom: 20px", value="#{plan._id}") Expand Form
+								button.btn(value="goToForm", class="goToIndividualPlan", style="margin-bottom: 20px", value="#{plan._id}") Expand/ Edit Form
 								
 								.container(id="planToAutofill" + "#{plan._id}", style="display:none")
 									div.row
@@ -369,33 +369,12 @@ block content
 																			| Date __________________________
 																	br
 																	br
-															fieldset(style="margin-top:50px")
+															fieldset(style="margin-top:50px; margin-bottom: 50px")
 																	label Form Name (for student use only)
 																	input(type="text", name="form_name")
 																	button.btn(type="submit", value="save_form") Save
 																	button.btn(value="email_form", id="email_form") Email
 
-
-
-
-
-								
-
-
-
-						button.btn(id="pushToAutofill", value="Push to Autofill") Autofill Test
-
-				div.row(id="toAutofill", style="display: none")
-							form(name="tester1", action="/studyPlan/save", method="post")
-								div.large-10.push-3
-										div(id="basic-info-form")
-												.large-4.columns
-														label Name
-														input(type="text", name="student_name")
-														label Advisor 
-														input(type="text", name="adviser_name")
-														label Graduation Year
-														input(type="text", name="graduation_year")
 												
 
 

@@ -15,7 +15,7 @@ block content
             ul.right
               li.divider
               li
-                a(href='#') Log out
+                a(href='/logout') Log out
 
 
     .large-3.columns
@@ -359,7 +359,7 @@ block content
                     fieldset(style="margin-top:50px")
                         label Form Name (for student use only)
                         input(type="text", name="form_name")
-                        button.btn(type="submit", value="save_form") Save
+                        button.btn(type="submit", value="save_form", id="submitFormButton") Save
                         button.btn(value="email_form", id="email_form") Email
 
 
