@@ -30,11 +30,114 @@ exports.saveForm = function(req, res){
 		// if no error, check if student is modifying form or creating new one
 		for(var i=0; i<student.planOfStudy_forms.length; i++){
 			if(student.planOfStudy_forms[i].name == req.body.form_name){
-				console.log("Detected an existent form, modifying it.");
 				found = true; 
-
-				// question: how does the behavior here actually differ from 
+				break; 
 			}
+		}
+
+		if(found){
+			console.log("Detected an existent form, modifying it.");
+			
+			var courseList = [];
+			var arr = [];
+
+			async.auto({
+				ingesting_user_data: function(callback){
+					// combine each individual course entry into array of info 
+					var courseNames = [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8];
+					var courseMTH = [req.body.course1_MTH, req.body.course2_MTH, req.body.course3_MTH, req.body.course4_MTH, req.body.course5_MTH, req.body.course6_MTH, req.body.course7_MTH, req.body.course8_MTH];
+					var courseSCI = [req.body.course1_SCI, req.body.course2_SCI, req.body.course3_SCI, req.body.course4_SCI, req.body.course5_SCI, req.body.course6_SCI, req.body.course7_SCI, req.body.course8_SCI];
+					var courseENGR = [req.body.course1_ENGR, req.body.course2_ENGR, req.body.course3_ENGR, req.body.course4_ENGR, req.body.course5_ENGR, req.body.course6_ENGR, req.body.course7_ENGR, req.body.course8_ENGR];
+					var courseAHSE = [req.body.course1_AHSE, req.body.course2_AHSE, req.body.course3_AHSE, req.body.course4_AHSE, req.body.course5_AHSE, req.body.course6_AHSE, req.body.course7_AHSE, req.body.course8_AHSE];
+
+					// combine each individual course entry into array of info 
+					for(var i=0; i<courseNames.length; i++){
+						arr.push({
+							courseName: courseNames[i], 
+							MTH: courseMTH[i], 
+							SCI: courseSCI[i], 
+							ENGR: courseENGR[i], 
+							AHSE: courseAHSE[i]
+						});
+					}
+					// upon successful completion of course list creation, call callback
+					callback(null);
+				}, 
+				populating_course_list: ['ingesting_user_data', function(callback){
+					// create a list of course objects 
+					async.map(arr, function(item, next){
+						var courseType; 
+						var courseCredits;
+						if(item.MTH != 0){
+							courseType = 'MTH';
+							courseCredits = item.MTH;
+						}else{
+							if(item.SCI != 0){
+								courseType = 'SCI';
+								courseCredits = item.SCI;
+							}else{
+								if(item.ENGR != 0){
+									courseType = 'ENGR';
+									courseCredits = item.ENGR;
+								}else{
+									if(item.AHSE != 0){
+										courseType = 'AHSE';
+										courseCredits = item.AHSE;
+									}else{
+										courseType = '';
+										courseCredits = '';
+									}
+								}
+							}
+						}	
+						// for right now, all non-pertinent attributes are just empty strings 
+						var newCourse = new Course({section: '', name: item.courseName, credit: courseCredits, grade: '', type: courseType, id: ''});
+						newCourse.save(function(err){
+							if(err)
+								console.log("Couldn't save the new course: ", err);
+							courseList.push(newCourse);
+							next(null);
+						});
+					}, function(err, results){
+						callback(null, results);
+					});
+				}], 
+				modifying_planOfStudy: ['populating_course_list', function(callback, results){
+					PlanOfStudy.update({name: req.body.form_name}, {
+						name: req.body.form_name, 
+						student_name: req.body.student_name, 
+						adviser: req.body.adviser_name, 
+						grad_year: req.body.graduation_year, 
+						concentration_declaration: req.body.declaration_title,
+						
+						// nested things
+						courses: courseList, 
+						MTH_credits: req.body.total_MTH, 
+						SCI_credits: req.body.total_SCI, 
+						ENGR_credits: req.body.total_ENGR, 
+						AHSE_orOther_credits: req.body.total_AHSE, 
+						additional_electives_MTH: req.body.additional_MTH, 
+						additional_electives_SCI: req.body.additional_SCI, 
+						additional_electives_ENGR: req.body.additional_ENGR, 
+						additional_electives_AHSE: req.body.additional_AHSE, 
+
+						overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, 
+						course_plan_story: req.body.course_plan_text,
+						chem_matsci_req: req.body.chem_matsci, 
+						phys_req: req.body.phys, 
+						design_depth_req: req.body.design_depth,
+						overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle
+
+					}, function(err, results){
+						if(err)
+							console.log("Unable to update plan of study: ", err);
+						callback(null, 'done');
+					})
+		}], 
+			}, function (err, result){
+				// final callback
+				console.log("Successfully ingested and modified Plan of Study");
+			})
 		}
 			//form.update({name: req.body.form_name}, {adviser: req.body.adviser_name}, {grad_year: req.body.graduation_year}, {concentration_declaration: req.body.declaration}, {courses: [req.body.course1, req.body.course2, req.body.course3, req.body.course4, req.body.course5, req.body.course6, req.body.course7, req.body.course8]})
 		if(!found){
@@ -105,7 +208,29 @@ exports.saveForm = function(req, res){
 					});
 				}], 
 				create_planOfStudy: ['populating_course_list', function(callback, results){
-					newPlanOfStudy = new PlanOfStudy({name: req.body.form_name, student_name: req.body.student_name, adviser: req.body.adviser_name, grad_year: req.body.graduation_year, concentration_declaration: req.body.declaration_title, nested: {courses: courseList, MTH_credits: req.body.total_MTH, SCI_credits: req.body.total_SCI, ENGR_credits: req.body.total_ENGR, AHSE_orOther_credits: req.body.total_AHSE, additional_electives_MTH: req.body.additional_MTH,  additional_electives_SCI: req.body.additional_SCI, additional_electives_ENGR: req.body.additional_ENGR, additional_electives_AHSE: req.body.additional_AHSE}, overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, course_plan_story: req.body.course_plan_text, chem_matsci_req: req.body.chem_matsci, phys_req: req.body.phys, design_depth_req: req.body.design_depth, overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle});
+					newPlanOfStudy = new PlanOfStudy({
+						name: req.body.form_name, 
+						student_name: req.body.student_name, 
+						adviser: req.body.adviser_name, 
+						grad_year: req.body.graduation_year, 
+						concentration_declaration: req.body.declaration_title, 
+						nested: {
+							courses: courseList, 
+							MTH_credits: req.body.total_MTH, 
+							SCI_credits: req.body.total_SCI, 
+							ENGR_credits: req.body.total_ENGR,
+							AHSE_orOther_credits: req.body.total_AHSE, 
+							additional_electives_MTH: req.body.additional_MTH,  
+							additional_electives_SCI: req.body.additional_SCI, 
+							additional_electives_ENGR: req.body.additional_ENGR, 
+							additional_electives_AHSE: req.body.additional_AHSE}, 
+						overlap_toggle_allOlin: req.body.overlap_allOlin_toggle, 
+						course_plan_story: req.body.course_plan_text, 
+						chem_matsci_req: req.body.chem_matsci, 
+						phys_req: req.body.phys, 
+						design_depth_req: req.body.design_depth, 
+						overlap_toggle_chemMatsciDesign: req.body.overlap_chemMatsci_toggle});
+
 					newPlanOfStudy.save(function (err){
 						if(err)
 							console.log("Unable to create and save new plan of study: ", err);
