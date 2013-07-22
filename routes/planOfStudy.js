@@ -293,59 +293,63 @@ exports.backdoorDisplay = function(req, res){
 exports.autoFillPlanInfo = function(req, res){
 	data = {};
 	PlanOfStudy.findOne({_id: req.params.planID}).populate('courses').exec(function(err, plan){
+		if(plan.owner != req.session.user._id) {
+			res.send("You do not have permission to view this plan of study.");
+		} else {
 
-		// general fields data population
-		data['student_name'] = plan.student_name; 
-		data['adviser_name'] = plan.adviser;
-		data['graduation_year'] = plan.grad_year;
-		data['declaration_title'] = plan.concentration_declaration;
-		data['overlap_allOlin_toggle'] = plan.overlap_toggle_allOlin;
-		data['course_plan_text'] = plan.course_plan_story;
-		data['chem_matsci'] = plan.chem_matsci_req;
-		data['phys'] = plan.phys_req;
-		data['design_depth'] = plan.design_depth_req;
-		data['overlap_chemMatsci_toggle'] = plan.overlap_toggle_chemMatsciDesign;
-		data['form_name'] = plan.name; 
+			// general fields data population
+			data['student_name'] = plan.student_name; 
+			data['adviser_name'] = plan.adviser;
+			data['graduation_year'] = plan.grad_year;
+			data['declaration_title'] = plan.concentration_declaration;
+			data['overlap_allOlin_toggle'] = plan.overlap_toggle_allOlin;
+			data['course_plan_text'] = plan.course_plan_story;
+			data['chem_matsci'] = plan.chem_matsci_req;
+			data['phys'] = plan.phys_req;
+			data['design_depth'] = plan.design_depth_req;
+			data['overlap_chemMatsci_toggle'] = plan.overlap_toggle_chemMatsciDesign;
+			data['form_name'] = plan.name; 
 
-		// data population of course list
-		var counter = 1; 
-		for(var i=0; i<plan.courses.length; i++){
-			var currCourse = plan.courses[i];
+			// data population of course list
+			var counter = 1; 
+			for(var i=0; i<plan.courses.length; i++){
+				var currCourse = plan.courses[i];
 
-			if(currCourse.name != '' && currCourse.credit != null){
-				data['course' + counter] = currCourse.name;
+				if(currCourse.name != '' && currCourse.credit != null){
+					data['course' + counter] = currCourse.name;
 
-				// type of credit course qualifies for 
-				var creditType = currCourse.type;
-				data['course' + counter + '_' + creditType] = currCourse.credit; 
-				counter++; 
+					// type of credit course qualifies for 
+					var creditType = currCourse.type;
+					data['course' + counter + '_' + creditType] = currCourse.credit; 
+					counter++; 
+				}
 			}
+
+			// totals for courses sub-form
+			data['subtotal_MTH'] = plan.MTH_credits - plan.additional_electives_MTH - 8;  
+			data['subtotal_SCI'] = plan.SCI_credits - plan.additional_electives_SCI - 14; 
+			data['subtotal_ENGR'] = plan.ENGR_credits - plan.additional_electives_ENGR - 30; 
+			data['subtotal_AHSE'] = plan.AHSE_orOther_credits - plan.additional_electives_AHSE; 
+			
+			data['allSchool_MTH'] = 8;
+			data['allSchool_SCI'] = 14; 
+			data['allSchool_ENGR'] = 30; 
+			data['allSchool_AHSE'] = 0; 
+
+			data['additional_MTH'] = plan.additional_electives_MTH; 
+			data['additional_SCI'] = plan.additional_electives_SCI; 
+			data['additional_ENGR'] = plan.additional_electives_ENGR; 
+			data['additional_AHSE'] = plan.additional_electives_AHSE; 
+
+
+			data['total_MTH'] = plan.MTH_credits; 
+			data['total_SCI'] = plan.SCI_credits;
+			data['total_ENGR'] = plan.ENGR_credits;
+			data['total_AHSE'] = plan.AHSE_orOther_credits;
+
+			// send data
+			res.send(data);
 		}
-
-		// totals for courses sub-form
-		data['subtotal_MTH'] = plan.MTH_credits - plan.additional_electives_MTH - 8;  
-		data['subtotal_SCI'] = plan.SCI_credits - plan.additional_electives_SCI - 14; 
-		data['subtotal_ENGR'] = plan.ENGR_credits - plan.additional_electives_ENGR - 30; 
-		data['subtotal_AHSE'] = plan.AHSE_orOther_credits - plan.additional_electives_AHSE; 
-		
-		data['allSchool_MTH'] = 8;
-		data['allSchool_SCI'] = 14; 
-		data['allSchool_ENGR'] = 30; 
-		data['allSchool_AHSE'] = 0; 
-
-		data['additional_MTH'] = plan.additional_electives_MTH; 
-		data['additional_SCI'] = plan.additional_electives_SCI; 
-		data['additional_ENGR'] = plan.additional_electives_ENGR; 
-		data['additional_AHSE'] = plan.additional_electives_AHSE; 
-
-
-		data['total_MTH'] = plan.MTH_credits; 
-		data['total_SCI'] = plan.SCI_credits;
-		data['total_ENGR'] = plan.ENGR_credits;
-		data['total_AHSE'] = plan.AHSE_orOther_credits;
-
-		// send data
-		res.send(data);
 	})
 }
 
