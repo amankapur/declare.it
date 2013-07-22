@@ -68,7 +68,8 @@ app.post('/autoFill', scrapiroute.run);
 app.post('/autoFillPlanInfo/:planID', planOfStudy.autoFillPlanInfo);
 app.post('/studyPlan/save', loginRequired(), planOfStudy.saveForm);
 app.get('/studyPlan/new', loginRequired(), planOfStudy.displayForm);
-app.get('/studyPlan/:planID', loginRequired(), planOfStudy.displayFilledForm);
+app.get('/studyPlan/:planID', planOfStudy.displayFilledForm);
+app.post('/auth/:planID', loginRequired(), planOfStudy.auth)
 
 // DEBUG
 app.get('/enumeratePlans', planOfStudy.enumerate_plans); // <-- NEED TO GET RID OF THIS BEFORE WE SHIP!

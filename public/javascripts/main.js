@@ -23,7 +23,6 @@ $(function(){
   })
 
   $("#pushToAutofill").click(function (){
-      console.log("We're in the javascripties!!!")
       $.post('/autoFillWholeForm', function(data){
         $("#toAutofill").show();
         $("#toAutofill").autofill(data);
@@ -38,4 +37,22 @@ $(function(){
     })
   })
 
+  $("#email_form").click(function () {
+    $("#spinner").show();
+    var formID = $(this).attr("value");
+    $.post('/auth/' + formID, function(data){
+        SendEmail("http://"+window.location.host+"/studyPlan/"+formID+"?key="+data.key);
+    });
+  });
 })
+
+function SendEmail(href) {
+    var subject= "My new plan of study";
+    var body = "Hey! Here's my new plan of study:\r\n\r\n";
+    body += href;
+    var uri = "mailto:?subject=";
+    uri += encodeURIComponent(subject);
+    uri += "&body=";
+    uri += encodeURIComponent(body);
+    window.location = uri;
+}

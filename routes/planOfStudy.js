@@ -14,12 +14,32 @@ exports.displayForm = function(req, res){
 exports.displayFilledForm = function(req, res){
 	PlanOfStudy.findOne({_id: req.params.planID}).populate('courses').exec(function (err, plan){
 		if(err)
-			console.log("Could not find and display desired Plan of Study: ", err);
-		if(plan.owner != req.session.user._id) {
-			res.send("You do not have permission to view this page.");
+			res.send("Could not find and display desired Plan of Study: ", err);
+		if (req.query.key) {
+			if (plan.keys.indexOf(req.query.key) > -1) {
+				res.render('planOfStudyDisplay', {title: "View Plan Of Study", plan: plan, loggedIn: false});
+			} else {
+				res.send("Invalid URL");
+			}
 		} else {
-			res.render('planOfStudyDisplay', {title: "View Plan Of Study", plan: plan, loggedIn: true});
+			if(!req.session.user || plan.owner != req.session.user._id) {
+				res.send("You do not have permission to view this page.");
+			} else {
+				res.render('planOfStudyDisplay', {title: "View Plan Of Study", plan: plan, loggedIn: true});
+			}
 		}
+	});
+}
+
+exports.auth = function(req, res){
+	PlanOfStudy.findOne({_id: req.params.planID}).exec(function (err, plan){
+		var newKey = Math.floor(Math.random()*100000000000000001);
+		var keys = plan.keys;
+		keys.push(newKey);
+		PlanOfStudy.findOneAndUpdate({ _id : req.params.planID }, { $set: { keys: keys }})
+		.exec(function (err, docs) {
+			res.send({key: newKey});
+		});
 	});
 }
 

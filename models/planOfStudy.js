@@ -2,6 +2,7 @@ var mongoose = require('mongoose'), Schema = mongoose.Schema
 
 var planOfStudySchema = new Schema({
 	owner: {type: Schema.Types.ObjectId, ref: 'Student'},
+	keys: [Number],
 	name: String, 
 	student_name: String, 
 	adviser: String, 
