@@ -15,8 +15,12 @@ exports.displayFilledForm = function(req, res){
 	PlanOfStudy.findOne({_id: req.params.planID}).populate('courses').exec(function (err, plan){
 		if(err)
 			console.log("Could not find and display desired Plan of Study: ", err);
-		res.render('testPage', {title: "Test of Autofill Display"});
-	})
+		if(plan.owner != req.session.user._id) {
+			res.send("You do not have permission to view this page.");
+		} else {
+			res.render('planOfStudyDisplay', {title: "View Plan Of Study", plan: plan, loggedIn: true});
+		}
+	});
 }
 
 exports.saveForm = function(req, res){
@@ -34,7 +38,7 @@ exports.saveForm = function(req, res){
 			}
 		}
 
-		if(found){			
+		if(found){
 			var courseList = [];
 			var arr = [];
 
@@ -205,6 +209,7 @@ exports.saveForm = function(req, res){
 				}], 
 				create_planOfStudy: ['populating_course_list', function(callback, results){
 					newPlanOfStudy = new PlanOfStudy({
+						owner: req.session.user._id,
 						name: req.body.form_name, 
 						student_name: req.body.student_name, 
 						adviser: req.body.adviser_name, 

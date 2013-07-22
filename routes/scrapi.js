@@ -58,7 +58,8 @@ exports.login = function (req, response) {
         // CASE: student has already logged in, exists in our system
         var existentStudent = Student.findOne({username: req.body.username}).exec(function (err, student){
           if(student){
-            req.session.user = student; 
+            req.session.user = student;
+            console.log("session user shows up as: " + req.session.user);
             req.session.json = json;
             response.redirect('/');
           }else{

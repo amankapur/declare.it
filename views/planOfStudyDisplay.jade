@@ -1,0 +1,214 @@
+extends layout
+
+block content
+    title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            if (loggedIn)
+              ul.right
+                li.divider
+                li
+                  a(href='/logout') Log out
+
+
+    .container
+        div.row
+            div.large-10
+                h1 Olin College Engineering Plan of Study
+        div.row
+          div.large-10
+              div(id="basic-info-form")
+                      p Name: 
+                        span(class="formInfo") #{plan.student_name}
+                      p Advisor:  
+                        span(class="formInfo") #{plan.adviser}
+                      p Graduation Year: 
+                        span(class="formInfo") #{plan.grad_year}
+
+              div.row.twelve.columns(id="declaration-explanatory-text")
+                  h3 Declaration of Concentration
+                  p(class="instructions") Please specify your intended Concentration. If you are following 
+                    | a defined concentration, please write it in the box below. If you 
+                    | are pursuing a self-designed concentration and would like a name for
+                    | it to appear on your diploma, this is also the place to specify it for 
+                    | Engineering Program Group approval.
+                  p Concentration Declaration: 
+                    span(class="formInfo") #{plan.concentration_declaration}
+
+              div.row.twelve.columns(id="story-behind-course-plan")
+                  h3 Story Behind the Course Plan
+                  p(class="instructions")
+                    | If you are proposing a defined concentration, explain (a) why 
+                    | this is the concentration you chose and (b) why you chose the 
+                    | courses listed on the other side of the form to fulfill your 
+                    | requirements.
+                    br
+                    br
+                    | If you are proposing a self-defined concentration, explain (a) 
+                    | how you arrived at this plan and (b) how your plan (i.e. the 
+                    | courses listed on the other side) incorporates breadth, depth, 
+                    | coherence and rigor. See the Engineering Program Handbook for more 
+                    | information.
+                    br
+                    br
+                    | You may attach additional papers or documentation if necessary.
+                  div(id="course-plan-student-text", class="display-textbox")
+                    p #{plan.course_plan_story}
+
+
+              div.row.twelve.columns(id="courses-for-concentration")
+                  h3 Courses to Complete Concentration 
+                  p(class="instructions")
+                    | In the table below, list the courses that you will have taken to 
+                    | constitute the breadth, depth, coherence and rigor of your declared 
+                    | concentration. You may either include specific courses or give a description 
+                    | of the kind of course you are planning to take, but you should be sure to include 
+                    | enough specificity to fully describe your concentration. If the total credits
+                    | received from the concentration courses and required courses is not enough to meet 
+                    | the graduation requirements in math, science and engineering (as described below),
+                    |  use the additional line at the bottom of the table to specify additional credits 
+                    | needed. 
+                    br
+                    br
+                    | NOTE: Do not include courses outside of the courses needed to satisfy your core concentration. 
+                    | You do NOT need to use all of the lines on this table. Many successful plans 
+                    | of study specify 24-30 credits of coursework that form the core of the concentration.
+                  div(id="courses")
+                      fieldset
+                          legend Plan of Study
+                          .row(style="font-style:italic")
+                              .large-8.columns
+                                  | COURSES 
+                              .large-1.columns
+                                  | MTH
+                              .large-1.columns
+                                  | SCI
+                              .large-1.columns
+                                  | ENGR
+                              .large-1.columns
+                                  | AHSE/ Other
+                          each course, i in plan.courses
+                            if (course.name != "")
+                              .row(style="border-top: 1px solid black")
+                                .large-8.columns
+                                  p #{course.name}
+                                .large-1.columns
+                                  p
+                                    if (course.type == "MTH")
+                                      | #{course.credit}
+                                .large-1.columns
+                                  p
+                                    if (course.type == "SCI")
+                                      | #{course.credit}
+                                .large-1.columns
+                                  p
+                                    if (course.type == "ENGR")
+                                      | #{course.credit}
+                                .large-1.columns
+                                  p
+                                    if (course.type == "AHSE")
+                                      | #{course.credit}
+
+                          .row
+                            .large-8.columns(style="text-align: right")
+                              | Subtotal 
+                            .large-1.columns
+                              p #{plan.MTH_credits - plan.additional_electives_MTH - 8}
+                            .large-1.columns
+                              p #{plan.SCI_credits - plan.additional_electives_MTH - 14}
+                            .large-1.columns
+                              p #{plan.ENGR_credits - plan.additional_electives_MTH - 30}
+                            .large-1.columns
+                              p #{plan.AHSE_orOther_credits}
+
+                          .row
+                            .large-8.columns(style="text-align: right")
+                              | Courses Required for all Olin Students (eg. POE, SCOPE)
+                            .large-1.columns
+                              p 8
+                            .large-1.columns
+                              p 14
+                            .large-1.columns
+                              p 30
+                            .large-1.columns
+                              p
+
+                          .row
+                            .large-8.columns(style="text-align: right")
+                              | Additional Electives
+                            .large-1.columns
+                              p #{plan.additional_electives_MTH}
+                            .large-1.columns
+                              p #{plan.additional_electives_SCI}
+                            .large-1.columns
+                              p #{plan.additional_electives_ENGR}
+                            .large-1.columns
+                              p #{plan.additional_electives_AHSE}
+
+                          .row
+                            .large-8.columns(style="text-align: right")
+                              | Total
+                            .large-1.columns
+                              p #{plan.MTH_credits}
+                            .large-1.columns
+                              p #{plan.SCI_credits}
+                            .large-1.columns
+                              p #{plan.ENGR_credits}
+                            .large-1.columns
+                              p #{plan.AHSE_orOther_credits}
+
+                          .row
+                            .large-8.columns(style="text-align: right")
+                              | Required Credits for Graduation
+                            .large-1.columns
+                              p 10
+                            .large-1.columns
+                              p 
+                            .large-1.columns
+                              p 46
+                            .large-1.columns
+                              p 28
+
+                          .row
+                            .large-8.columns
+                              label
+                            .large-2.columns(style="text-align: center")
+                              small At least 30
+                            .large-2.columns
+                              label
+                  br
+                  div.row(id="check-overlap-allOlin")
+                      p Do any of the courses listed for your concentration include courses which 
+                        | all Olin students are required to take before graduation (e.g. SCOPE, POE, UOCD)? 
+                      if (plan.overlap_toggle_allOlin)
+                        p(class="formInfo") Yes.
+                      else
+                        p(class="formInfo") No.
+
+                  div.row(id="chem-matsci-req-check")
+                    p What course are you taking to meet the Chemistry/Materials Science requirement? 
+                    p(class="formInfo") #{plan.chem_matsci_req}.
+
+                  div.row(id="phys-req-check")
+                    p What course are you taking to meet the physics requirement? 
+                    p(class="formInfo") #{plan.phys_req}.
+
+                  div.row(id="design-depth-req-check")
+                    p What course are you taking to meet the Design Depth requirement?     
+                    p(class="formInfo") #{plan.design_depth_req}.
+
+                  div.row(id="check-overlap-chemMatsci")
+                    p Are any of the courses listed for your concentration also used to meet 
+                      | the Chemistry/Materials Science, Physics, or Design Depth, AHS, or E! concentration?
+                    if (plan.overlap_toggle_chemMatsciDesign)
+                      p(class="formInfo") Yes.
+                    else
+                      p(class="formInfo") No.

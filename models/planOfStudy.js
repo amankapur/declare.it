@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'), Schema = mongoose.Schema
 
 var planOfStudySchema = new Schema({
+	owner: {type: Schema.Types.ObjectId, ref: 'Student'},
 	name: String, 
 	student_name: String, 
 	adviser: String, 

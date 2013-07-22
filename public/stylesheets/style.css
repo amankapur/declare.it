@@ -47,3 +47,17 @@ a {
 #EPG-sig{
 	margin-top: 20px;
 }
+
+.formInfo {
+	font-weight: bold;
+}
+
+.instructions {
+	font-style: italic;
+	color: #666;
+}
+
+.display-textbox {
+	border: 1px solid black;
+	padding: 1em;
+}
