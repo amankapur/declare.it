@@ -12,5 +12,8 @@ block content
 				div.small-4
 					label my.olin.edu Password
 					input(type='password', name="password", placeholder='')
+				if (youfuckedup)
+					div.small-4
+						p.whoops Invalid login credentials.
 				div.small-4
 					button(type="submit", class="button") Submit

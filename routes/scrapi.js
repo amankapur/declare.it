@@ -47,37 +47,34 @@ exports.login = function (req, response) {
       "btnLogin": "Login"
     }, function (err, html, res) {
       if (res.statusCode != 302) {
-        throw new Error('Invalid login.');
-      }
+        response.render('login_page', {title: 'Declare.it', youfuckedup: true});
+      } else {
+        api('/ICS/My_StAR/My_Grades_and_Transcript.jnz').get({
+          portlet: "Unofficial_Transcript_OLIN"
+        }, function(err, json) {
 
-      api('/ICS/My_StAR/My_Grades_and_Transcript.jnz').get({
-        portlet: "Unofficial_Transcript_OLIN"
-      }, function(err, json) {
-        //req.session.user = req.body.username;
-
-        // CASE: student has already logged in, exists in our system
-        var existentStudent = Student.findOne({username: req.body.username}).exec(function (err, student){
-          if(student){
-            req.session.user = student;
-            console.log("session user shows up as: " + req.session.user);
-            req.session.json = json;
-            response.redirect('/');
-          }else{
-            // CASE: student logging into our system for the first time
-            var time = Date.now();
-            var newStudent = new Student({created: time, domain: 'olin', username: req.body.username, email: '', planOfStudy_forms: []});
-            newStudent.save(function (err){
-              if(err)
-                console.log("Couldn't create new student in system: ", err);
-              req.session.user = newStudent; 
+          // CASE: student has already logged in, exists in our system
+          var existentStudent = Student.findOne({username: req.body.username}).exec(function (err, student){
+            if(student){
+              req.session.user = student;
+              console.log("session user shows up as: " + req.session.user);
               req.session.json = json;
               response.redirect('/');
-            });
-          }
+            }else{
+              // CASE: student logging into our system for the first time
+              var time = Date.now();
+              var newStudent = new Student({created: time, domain: 'olin', username: req.body.username, email: '', planOfStudy_forms: []});
+              newStudent.save(function (err){
+                if(err)
+                  console.log("Couldn't create new student in system: ", err);
+                req.session.user = newStudent; 
+                req.session.json = json;
+                response.redirect('/');
+              });
+            }
+          });
         });
-        //req.session.json = json;
-        //response.redirect('/');
-      });
+      }
     });
   });
 }
