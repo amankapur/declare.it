@@ -1,0 +1,82 @@
+extends layout
+
+block content
+    title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            ul.right
+              li.divider
+              li
+                a(href='/logout') Log out
+
+
+    .large-3.columns
+        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+            section.section
+              p.title
+                a(href='/home') Home
+            section.section.active
+              p.title
+                a(href='/concentrationReqs') Concentration Requirements
+              div.content
+                ul.side-nav
+                  li
+                    a(href="/e-bio") E-Bioengineering
+                  li
+                    a(href="/e-computing") E-Computing
+                  li 
+                    a(href="/e-design") E-Design
+                  li.active
+                    a(href="/e-matsci") E-Materials Science
+                  li
+                    a(href="/e-systems") E-Systems
+
+            section.section
+              p.title
+                a(href='/studyPlan/new') New Plan of Study
+
+
+    .container
+        div.row
+            div.large-11.push-1
+                h1 Engineering: Materials Science (E:MS)
+                | Materials Science is an inherently interdisciplinary field with a strong presence throughout most engineering and science disciplines. Olin’s materials science concentration provides an integrated approach to materials, merging a variety of engineering design principles with concepts from solid-state physics and applied chemistry. 
+                br
+                br
+                | Students who complete the E:MS concentration will achieve an understanding of structure-property-processing-performance relationships in materials, the ability to apply advanced scientific and engineering principles to materials systems, and the skills to synthesize appropriate technical and contextual information to solve materials selection and design problems.
+                br
+                br
+
+                div(id="courses_table", style="font-size: 16px")
+                  table
+                    thead
+                      tr
+                        th(width="100") Requirement
+                        th(width="400") Course Name
+                        th(width="150") Number
+                    tbody
+                      tr
+                        td E:MS Math
+                        td Differential Equations
+                        td MTH 2140 or designated alternative
+                      tr
+                        td E:MS
+                        td 20 credits of engineering subjects appropriate to the program of study with a minimum of twelve credits in materials science subjects.    
+                        td 
+            div.large-9.push-3
+              | Students wishing to pursue the Materials Science concentration within the Engineering major must develop a specific program of study in consultation with materials science and applied chemistry faculty. Such programs may emphasize different aspects of materials science, such as structural materials, solid state properties of materials, processing and manufacturing, or applied chemistry.
+
+
+
+
+
+                    
+

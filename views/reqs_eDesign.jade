@@ -1,0 +1,96 @@
+extends layout
+
+block content
+    title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            ul.right
+              li.divider
+              li
+                a(href='/logout') Log out
+
+
+    .large-3.columns
+        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+            section.section
+              p.title
+                a(href='/home') Home
+            section.section.active
+              p.title
+                a(href='/concentrationReqs') Concentration Requirements
+              div.content
+                ul.side-nav
+                  li
+                    a(href="/e-bio") E-Bioengineering
+                  li 
+                    a(href="/e-computing") E-Computing
+                  li.active
+                    a(href="/e-design") E-Design
+                  li 
+                    a(href="/e-matsci") E-Materials Science
+                  li
+                    a(href="/e-systems") E-Systems
+
+            section.section
+              p.title
+                a(href='/studyPlan/new') New Plan of Study
+
+
+    .container
+        div.row
+            div.large-11.push-1
+                h1 Engineering: Design (E:D)
+                | E: Design is an interdisciplinary concentration emphasizing synthesis, processes and methods of practice that blends engineering and AHSE. The E: Design concentration prepares students to address important societal and environmental needs through design thinking.
+                br
+                br
+                | E: Design students work closely with the design faculty at Olin to define individually customized programs of studies that meet Olin credit requirements. It remains the student’s responsibility to ensure that their program of study also meets the requirements for graduate programs or professional practice.
+                br
+                br
+
+                div(id="courses_table", style="font-size: 16px")
+                  table
+                    thead
+                      tr
+                        th(width="100") Requirement
+                        th(width="400") Course Name
+                        th(width="150") Number
+                    tbody
+                      tr
+                        td E:D Core
+                        td Eight credits of approved Advanced Design courses; Four credits may be met by Design Research
+                        td 
+                      tr
+                        td E:D Electives
+                        td Twelve credits of approved coursework appropriate to the program of study
+                        td 
+                      tr
+                        td E:D Portfolio
+                        td Two credits of Independent Study on portfolio creation (optional)
+                        td 
+            div.large-9.push-3
+                | Courses used by a student to meet the Design General Requirements may not simultaneously be used to meet the E: Design Core or Elective requirements.
+                br
+                br
+                | E: Design Elective courses may be drawn from any area including AHSE, Engineering, Science or Math. Students are strongly recommended to consider one or more AHSE courses to meet this requirement. Design Research may be accomplished through an Independent-study course advised by the design faculty. Design Research counts as Advanced Design.
+                br
+                br
+                | E: Design courses may be drawn from cross registration or study away institutions with prior approval by design faculty. Note that courses at design schools will often meet the E: Design Elective requirement and not the E: Design Core requirement.
+                br
+                br
+                | All E: Design programs of study should be consistent with the student’s educational goals and must contain sufficient depth, breadth, coherence, and rigor. All programs of study must receive prior approval by design faculty.
+                br
+                br
+                | All E: Design programs of study must fulfill the General Graduation Requirements.
+
+
+
+                    
+

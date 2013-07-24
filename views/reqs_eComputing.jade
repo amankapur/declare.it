@@ -1,0 +1,92 @@
+extends layout
+
+block content
+    title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            ul.right
+              li.divider
+              li
+                a(href='/logout') Log out
+
+
+    .large-3.columns
+        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+            section.section
+              p.title
+                a(href='/home') Home
+            section.section.active
+              p.title
+                a(href='/concentrationReqs') Concentration Requirements
+              div.content
+                ul.side-nav
+                  li
+                    a(href="/e-bio") E-Bioengineering
+                  li.active
+                    a(href="/e-computing") E-Computing
+                  li 
+                    a(href="/e-design") E-Design
+                  li 
+                    a(href="/e-matsci") E-Materials Science
+                  li
+                    a(href="/e-systems") E-Systems
+
+            section.section
+              p.title
+                a(href='/studyPlan/new') New Plan of Study
+
+
+    .container
+        div.row
+            div.large-11.push-1
+                h1 Engineering: Computing (E:C)
+                | The Computing concentration integrates the study of computer science and software engineering within a broad interdisciplinary context. The E:C concentration offers significant flexibility, particularly with courses taken off-campus.
+                br
+                br
+                | Additional computing credits may include Olin courses such as ENGR 3540 Computational Modeling, ENGR 3410 Computer Architecture, advanced computer science courses at Babson, Brandeis, Wellesley, or study away institutions. ENGR 3220 Human Factors and Interface Design may count toward the course requirements of E:C, but only if it is not used to satisfy the Design Depth requirement.
+                br
+                br
+
+                div(id="courses_table", style="font-size: 16px")
+                  table
+                    thead
+                      tr
+                        th(width="100") Requirement
+                        th(width="400") Course Name
+                        th(width="150") Number
+                    tbody
+                      tr
+                        td E:C Math
+                        td Discrete Mathematics
+                        td MTH 2110
+                      tr
+                        td E:C- All of: 
+                        td 
+                          br
+                          | Software Design 
+                          br
+                          | Foundations of Computer Science 
+                          br
+                          | Software Systems 
+                          br
+                          | eight additional credits in computing
+                        td ENGR 2510 
+                          br
+                          | ENGR 3520 
+                          br
+                          | ENGR 3525
+
+
+
+
+
+                    
+

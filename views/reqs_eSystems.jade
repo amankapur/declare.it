@@ -1,0 +1,113 @@
+extends layout
+
+block content
+    title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            ul.right
+              li.divider
+              li
+                a(href='/logout') Log out
+
+
+    .large-3.columns
+        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+            section.section
+              p.title
+                a(href='/home') Home
+            section.section.active
+              p.title
+                a(href='/concentrationReqs') Concentration Requirements
+              div.content
+                ul.side-nav
+                  li
+                    a(href="/e-bio") E-Bioengineering
+                  li
+                    a(href="/e-computing") E-Computing
+                  li 
+                    a(href="/e-design") E-Design
+                  li
+                    a(href="/e-matsci") E-Materials Science
+                  li.active
+                    a(href="/e-systems") E-Systems
+
+            section.section
+              p.title
+                a(href='/studyPlan/new') New Plan of Study
+
+
+    .container
+        div.row
+            div.large-11.push-1
+                h1 Engineering: Systems (E:SYS)
+                | The Systems concentration focuses on the design of products that integrate significant technology from multiple disciplines, with a focus on products that merge ECE and ME. Such products are particularly hard to create because designers tend to have specialized, rather than broad, knowledge of disciplines.
+                br
+                br
+
+
+                div(id="courses_table", style="font-size: 16px")
+                  table
+                    thead
+                      tr
+                        th(width="100") Requirement
+                        th(width="400") Course Name
+                        th(width="150") Number
+                    tbody
+                      tr
+                        td E:SYS ECE - Any two of: 
+                        td Signals and Systems 
+                          br
+                          | Introduction to Microelectronics Circuits 
+                          br
+                          | Software Design 
+                          br
+                          | Computer Architecture 
+                          br
+                          | Analog and Digital Communications
+                        td ENGR 2410 
+                          br
+                          | ENGR 2420 
+                          br
+                          | ENGR 2510 
+                          br
+                          | ENGR 3410 
+                          br
+                          | ENGR 3420
+                      tr
+                        td E:SYS ME – Any two of:
+                        td Mechanics of Solids and Structures 
+                          br
+                          | Dynamics 
+                          br
+                          | Thermodynamics 
+                          br
+                          | Transport Phenomena 
+                          br
+                          | Mechanical Design
+                        td ENGR 2320 
+                          br
+                          | ENGR 2340 
+                          br
+                          | ENGR 2350 
+                          br
+                          | ENGR 3310 
+                          br
+                          | ENGR 3330
+                      tr
+                        td E:SYS
+                        td Systems
+                        td ENGR 3710
+
+
+
+
+                    
+
