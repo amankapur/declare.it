@@ -1,0 +1,99 @@
+extends layout
+
+block content
+    title= title
+    
+    nav.top-bar(class="site-navbar")
+        ul.title-area
+            li.name
+              h1
+                a(href='#') declare.it 
+            li.toggle-topbar.menu-icon
+              a(href='#')
+                span Menu
+          section.top-bar-section
+            ul.right
+              li.divider
+              li
+                a(href='/logout') Log out
+
+
+    .large-3.columns
+        .docs.section-container.accordion(data-section='data-section', data-options='one_up: false')
+            section.section
+              p.title
+                a(href='/home') Home
+            section.section.active
+              p.title
+                a(href='/concentrationReqs') Concentration Requirements
+              div.content
+                ul.side-nav
+                  li
+                    a(href="/e-bio") E-Bioengineering
+                  li 
+                    a(href="/e-computing") E-Computing
+                  li 
+                    a(href="/e-design") E-Design
+                  li 
+                    a(href="/e-matsci") E-Materials Science
+                  li
+                    a(href="/e-systems") E-Systems
+
+            section.section
+              p.title
+                a(href='/studyPlan/new') New Plan of Study
+
+
+    .container
+        div.row
+            div.large-11.push-1
+                h1 Engineering: Bioengineering (E:Bio)
+                | Bioengineering is an interdisciplinary concentration rooted in engineering, biology, and chemistry. The E:Bio concentration prepares students to approach problems important to biology, medical research, and clinical studies; it provides some of the background required for medical school.
+                br
+                br
+                | Students wishing to pursue the E:Bio concentration within the Engineering major must develop a specific program of study in consultation with bioengineering faculty. Below are some guidelines on course selection:
+                br
+                br
+                ul
+                  li(style="margin-bottom:20px") Advanced Mathematics courses include MTH 3120 Partial Differential Equations and MTH 3170 Nonlinear Dynamics and Chaos (note that both these courses have MTH 2140 Differential Equations as a prerequisite). 
+            div.large-9.push-3
+                ul
+                  li(style="margin-bottom:20px") Advanced Biology courses include SCI 2210 Immunology and SCI 3210 Human Molecular Genetics in the Age of Genomics. 
+                  li(style="margin-bottom:20px")  Bioengineering courses include all ENGR 36xx-series courses, as well as ENGR 3810 Structural Biomaterials.
+                  li(style="margin-bottom:20px") E:Bio course plans may include classes at Babson, Brandeis, Wellesley, or other institutions. 
+
+                | Note that this is not an exhaustive list of acceptable courses; other courses may be used to fulfill each of these requirements if they are part of an approved course plan.
+                br
+                br
+
+                div(id="courses_table", style="font-size: 16px")
+                  table
+                    thead
+                      tr
+                        th(width="100") Requirement
+                        th(width="400") Course Name
+                        th(width="150") Number
+                    tbody
+                      tr
+                        td E:Bio Math
+                        td Four credits of advanced Mathematics appropriate to the program of study
+                        td 
+                      tr
+                        td E:Bio Biology
+                        td Four credits of advanced Biology
+                        td 
+                      tr
+                        td E:Bio Chemistry/ Materials Science
+                        td Four credits of Chemistry, Materials Science, or Organic Chemistry in addition to the General Course Requirements
+                        td SCI 1310, SCI 1410, SCI 2320
+                      tr
+                        td E:Bio Engineering
+                        td 12 credits of coursework appropriate to Bioengineering
+                        td
+                | Students interested in pursuing medical, dental or veterinary school admission should contact Dr. Janey Pratt, Olin Senior Partner in Health Science, as early in their Olin studies as possible, and ensure that their course plan meets the requirements of the programs they are considering.
+
+
+
+
+                    
+

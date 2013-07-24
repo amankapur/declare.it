@@ -63,6 +63,12 @@ app.get('/concentrationReqs', loginRequired(), concentrationReqs.displayReqs);
 app.post('/login', scrapiroute.login);
 app.get('/logout', loginRequired(), scrapiroute.logout);
 
+app.get('/e-bio', loginRequired(), concentrationReqs.eBiology);
+/*app.get('/e-computing', loginRequired(), concentrationReqs.eComputing);
+app.get('/e-design', loginRequired(), concentrationReqs.eDesign);
+app.get('/e-matsci', loginRequired(), concentrationReqs.eMatsci);
+app.get('/e-systems', loginRequired(), concentrationReqs.eSystems);*/
+
 
 app.post('/autoFill', scrapiroute.run);
 app.post('/autoFillPlanInfo/:planID', planOfStudy.autoFillPlanInfo);
