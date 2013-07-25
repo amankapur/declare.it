@@ -43,8 +43,9 @@ block content
 								h4(style="margin-bottom: -10px")
 									a(href="/studyPlan/#{plan._id}") #{plan.name}
 								br
-								button.btn(value="goToForm", class="goToIndividualPlan", style="margin-bottom: 20px", value="#{plan._id}") Edit Form
-								button.btn(value="email_form", id="email_form", value="#{plan._id}") Email Form
+								button.btn(value="goToForm", class="goToIndividualPlan", style="margin-bottom: 20px", value="#{plan._id}") Edit
+								button.btn(value="email_form", id="email_form", value="#{plan._id}") Email 
+								button.btn(value="delete_form", id="delete_form", value="#{plan._id}") Delete 
 								img(src="/images/spinner.gif", id="spinner")
 								
 								.container(id="planToAutofill" + "#{plan._id}", style="display:none")

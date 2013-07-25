@@ -37,6 +37,12 @@ $(function(){
     })
   })
 
+  $("#delete_form").click(function (){
+    $.post('/studyPlan/delete/' + $(this).attr("value"), function (err){
+      location.reload(); 
+    });  
+  })
+
   $("#email_form").click(function () {
     $("#spinner").show();
     var formID = $(this).attr("value");

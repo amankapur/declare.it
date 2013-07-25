@@ -74,6 +74,8 @@ app.post('/autoFill', scrapiroute.run);
 app.post('/autoFillPlanInfo/:planID', planOfStudy.autoFillPlanInfo);
 app.post('/studyPlan/save', loginRequired(), planOfStudy.saveForm);
 app.get('/studyPlan/new', loginRequired(), planOfStudy.displayForm);
+app.post('/studyPlan/delete/:plan_ID', loginRequired(), planOfStudy.delete_one);
+app.get('/studyPlan/delete/:plan_ID', loginRequired(), planOfStudy.delete_one);
 app.get('/studyPlan/:planID', planOfStudy.displayFilledForm);
 app.post('/auth/:planID', loginRequired(), planOfStudy.auth)
 

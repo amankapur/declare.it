@@ -296,6 +296,16 @@ exports.delete_all = function(req, res){
   });
 }
 
+// delete one specific Plan of Study
+exports.delete_one = function(req, res){
+	console.log("Made it into the delete call!!");
+	PlanOfStudy.findOneAndRemove({_id: req.params.plan_ID}, function (err){
+		if(err)
+			console.log("Couldn't properly delete specified plan of study: ", err);
+		res.redirect('/home');
+	})
+}
+
 // list all Plans of Study associated with a student [DEBUG PURPOSES ONLY]
 exports.enumerate_plans = function(req, res){
 	Student.findOne({username: req.session.user.username}).populate('planOfStudy_forms').exec(function (err, student){
